@@ -26,6 +26,12 @@ namespace WoWFontChanger
             toolTip.SetToolTip(btnBrowse, "Click to browse your World of Warcraft installation folder.");
             toolTip.SetToolTip(btnReplace, "Click to replace the selected fonts.");
             toolTip.SetToolTip(btnRestoreDefaults, "Click to restore default WoW fonts by deleting the custom Fonts folder.");
+
+            // Detailed tooltips for checkboxes
+            toolTip.SetToolTip(chkUIFont, "Main UI Font (Friz Quadrata) - Used throughout most of the game interface, including player names, tooltips, and dialogues.");
+            toolTip.SetToolTip(chkNormalFont, "Normal Numbers Font (Arial Narrow) - Used for chat windows, quest XP rewards, vendor quantities, and action button numbers.");
+            toolTip.SetToolTip(chkHugeFont, "Huge Numbers Font (Skurri) - Appears over player and pet portraits during combat, showing incoming healing or damage.");
+            toolTip.SetToolTip(chkQuestFont, "Quest Log Font (Morpheus) - Used for quest title headers, mail text, and readable in-game books.");
         }
 
         private void WoWFontChanger_DragEnter(object sender, DragEventArgs e)
