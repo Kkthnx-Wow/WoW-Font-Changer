@@ -9,6 +9,9 @@
     <ApplicationIcon>icons8-world-of-warcraft-64.ico</ApplicationIcon>
     <Copyright>© Joshua Russell 2024. All rights reserved.</Copyright>
     <PackageIcon>icons8-world-of-warcraft-64.png</PackageIcon>
+    <Version>1.0.1</Version>
+    <Company>Kkthnx</Company>
+    <Title>WoW Font Changer</Title>
   </PropertyGroup>
 
   <ItemGroup>
