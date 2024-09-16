@@ -2,6 +2,8 @@
 
 **WoW Font Changer** is a Windows application that allows you to easily replace World of Warcraft's default fonts with your custom fonts. It provides a simple drag-and-drop interface, making it easy to update your game fonts without complex configurations.
 
+![{0006430C-235A-4D9F-AAB1-4172944487A8}](https://github.com/user-attachments/assets/ae345152-48a6-4860-8109-f8e375684cdd)
+
 ## Features
 
 - **Main UI Font**: Replace the font for UI elements like character names, buffs, and more.
