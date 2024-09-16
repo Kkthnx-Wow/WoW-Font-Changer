@@ -1,12 +1,12 @@
-namespace FontReplacer
+namespace WoWFontChanger
 {
-    public partial class Form1 : Form
+    public partial class WoWFontChanger : Form
     {
         string[] fontFiles = Array.Empty<string>(); // Initialize the array to avoid null issues
         ToolTip toolTip = new ToolTip(); // Tooltip instance
         private readonly string[] validWoWFolders = { "_retail_", "_ptr_", "_classic_", "_beta_" }; // Valid WoW folder names
 
-        public Form1()
+        public WoWFontChanger()
         {
             InitializeComponent();
 
@@ -14,8 +14,8 @@ namespace FontReplacer
             this.AllowDrop = true;
 
             // Hook up the drag-and-drop event handlers
-            this.DragEnter += Form1_DragEnter;
-            this.DragDrop += Form1_DragDrop;
+            this.DragEnter += WoWFontChanger_DragEnter;
+            this.DragDrop += WoWFontChanger_DragDrop;
 
             // Set up tooltips for buttons and other UI elements
             SetupTooltips();
@@ -28,8 +28,7 @@ namespace FontReplacer
             toolTip.SetToolTip(btnRestoreDefaults, "Click to restore default WoW fonts by deleting the custom Fonts folder.");
         }
 
-        // Handle the DragEnter event (what happens when a file is dragged into the form)
-        private void Form1_DragEnter(object sender, DragEventArgs e)
+        private void WoWFontChanger_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
@@ -37,8 +36,7 @@ namespace FontReplacer
             }
         }
 
-        // Handle the DragDrop event (what happens when the file is dropped)
-        private void Form1_DragDrop(object sender, DragEventArgs e)
+        private void WoWFontChanger_DragDrop(object sender, DragEventArgs e)
         {
             fontFiles = (string[])e.Data.GetData(DataFormats.FileDrop);
             string loadedFonts = string.Empty;
@@ -55,14 +53,13 @@ namespace FontReplacer
                 }
             }
 
+            lblLoadedFont.Text = !string.IsNullOrEmpty(loadedFonts)
+                ? $"Loaded Fonts:\n{loadedFonts}"
+                : "No valid font files loaded.";
+
             if (!string.IsNullOrEmpty(loadedFonts))
             {
-                lblLoadedFont.Text = $"Loaded Fonts:\n{loadedFonts}";
                 MessageBox.Show("Font(s) loaded successfully! Ready to press 'Replace Fonts'.");
-            }
-            else
-            {
-                lblLoadedFont.Text = "No valid font files loaded.";
             }
         }
 
@@ -70,10 +67,24 @@ namespace FontReplacer
         {
             string wowPath = txtWoWPath.Text;
 
+            // Ensure the path is not empty
+            if (string.IsNullOrEmpty(wowPath))
+            {
+                MessageBox.Show("Please select a valid World of Warcraft installation folder.");
+                return;
+            }
+
             // Validate the WoW path
             if (!IsValidWoWFolder(wowPath))
             {
                 MessageBox.Show("Please select a valid World of Warcraft folder (_retail_, _ptr_, _classic_, or _beta_).");
+                return;
+            }
+
+            // Check if at least one font option is selected
+            if (!chkUIFont.Checked && !chkNormalFont.Checked && !chkHugeFont.Checked && !chkQuestFont.Checked)
+            {
+                MessageBox.Show("Please select at least one font to replace.");
                 return;
             }
 
@@ -117,47 +128,27 @@ namespace FontReplacer
             }
         }
 
-        // Method to replace the selected fonts based on the user's selections
         private void ReplaceSelectedFonts(string file, string fontsDir, string backupDir)
         {
-            if (chkUIFont.Checked)
-            {
-                BackupAndReplace(fontsDir, backupDir, "FRIZQT__.TTF", file);
-            }
-
-            if (chkNormalFont.Checked)
-            {
-                BackupAndReplace(fontsDir, backupDir, "ARIALN.TTF", file);
-            }
-
-            if (chkHugeFont.Checked)
-            {
-                BackupAndReplace(fontsDir, backupDir, "SKURRI.TTF", file);
-            }
-
-            if (chkQuestFont.Checked)
-            {
-                BackupAndReplace(fontsDir, backupDir, "MORPHEUS.TTF", file);
-            }
+            if (chkUIFont.Checked) BackupAndReplace(fontsDir, backupDir, "FRIZQT__.TTF", file);
+            if (chkNormalFont.Checked) BackupAndReplace(fontsDir, backupDir, "ARIALN.TTF", file);
+            if (chkHugeFont.Checked) BackupAndReplace(fontsDir, backupDir, "SKURRI.TTF", file);
+            if (chkQuestFont.Checked) BackupAndReplace(fontsDir, backupDir, "MORPHEUS.TTF", file);
         }
 
-        // Method to backup the original WoW fonts and replace them with the new fonts
         private void BackupAndReplace(string fontsDir, string backupDir, string wowFontFileName, string newFontFile)
         {
             string wowFontPath = Path.Combine(fontsDir, wowFontFileName);
             string backupPath = Path.Combine(backupDir, wowFontFileName);
 
-            // Backup the original font file if it hasn't been backed up yet
             if (!File.Exists(backupPath) && File.Exists(wowFontPath))
             {
                 File.Copy(wowFontPath, backupPath);
             }
 
-            // Replace the original WoW font with the new font file
             File.Copy(newFontFile, wowFontPath, true);
         }
 
-        // Method to validate if the selected folder is a valid WoW folder
         private bool IsValidWoWFolder(string wowPath)
         {
             string folderName = new DirectoryInfo(wowPath).Name;
@@ -168,7 +159,6 @@ namespace FontReplacer
         {
             string wowPath = txtWoWPath.Text;
 
-            // Validate WoW Path
             if (string.IsNullOrEmpty(wowPath) || !Directory.Exists(wowPath))
             {
                 MessageBox.Show("Please select a valid World of Warcraft installation folder.");
@@ -177,17 +167,12 @@ namespace FontReplacer
 
             string fontsDir = Path.Combine(wowPath, "Fonts");
 
-            // Check if Fonts folder exists
             if (Directory.Exists(fontsDir))
             {
                 try
                 {
-                    // Ensure all files are writable (not read-only)
                     RemoveReadOnlyAttribute(fontsDir);
-
-                    // Attempt to delete the Fonts folder
                     Directory.Delete(fontsDir, true);
-
                     MessageBox.Show("Fonts folder deleted. World of Warcraft will use default fonts now.");
                 }
                 catch (UnauthorizedAccessException ex)
@@ -209,18 +194,15 @@ namespace FontReplacer
             }
         }
 
-        // Utility method to remove the read-only attribute from the Fonts folder and all its contents
         private void RemoveReadOnlyAttribute(string folderPath)
         {
             DirectoryInfo dirInfo = new DirectoryInfo(folderPath);
 
-            // Remove read-only attribute from folder
             if ((dirInfo.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
             {
                 dirInfo.Attributes &= ~FileAttributes.ReadOnly;
             }
 
-            // Remove read-only attribute from all files in the folder
             foreach (var file in dirInfo.GetFiles("*", SearchOption.AllDirectories))
             {
                 if ((file.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
@@ -255,7 +237,6 @@ namespace FontReplacer
                 {
                     string selectedPath = folderDialog.SelectedPath;
 
-                    // Validate selected folder
                     if (IsValidWoWFolder(selectedPath))
                     {
                         txtWoWPath.Text = selectedPath;
@@ -266,12 +247,6 @@ namespace FontReplacer
                     }
                 }
             }
-        }
-
-        // Handle UI font checkbox changes if needed
-        private void chkUIFont_CheckedChanged(object sender, EventArgs e)
-        {
-            // Any specific logic for UI font changes can go here
         }
     }
 }

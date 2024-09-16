@@ -1,6 +1,6 @@
-namespace FontReplacer
+namespace WoWFontChanger // or WoWFontChanger, depending on your overall structure
 {
-    internal static class Program
+    static class Program
     {
         /// <summary>
         ///  The main entry point for the application.
@@ -8,10 +8,10 @@ namespace FontReplacer
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
-            ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());
+            Application.SetHighDpiMode(HighDpiMode.SystemAware);
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new WoWFontChanger()); // This should reference the class, not the namespace
         }
     }
 }

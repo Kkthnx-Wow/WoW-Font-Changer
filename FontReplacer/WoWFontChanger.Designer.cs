@@ -1,16 +1,9 @@
-﻿namespace FontReplacer
+﻿namespace WoWFontChanger
 {
-    partial class Form1
+    partial class WoWFontChanger
     {
-        /// <summary>
-        ///  Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        ///  Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -22,13 +15,9 @@
 
         #region Windows Form Designer generated code
 
-        /// <summary>
-        ///  Required method for Designer support - do not modify
-        ///  the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WoWFontChanger));
             lblDropArea = new Label();
             chkUIFont = new CheckBox();
             chkNormalFont = new CheckBox();
@@ -47,11 +36,11 @@
             // lblDropArea
             // 
             lblDropArea.AutoSize = true;
-            lblDropArea.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblDropArea.Font = new Font("Arial Black", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblDropArea.ForeColor = SystemColors.ButtonShadow;
-            lblDropArea.Location = new Point(42, 20);
+            lblDropArea.Location = new Point(24, 21);
             lblDropArea.Name = "lblDropArea";
-            lblDropArea.Size = new Size(270, 30);
+            lblDropArea.Size = new Size(307, 30);
             lblDropArea.TabIndex = 0;
             lblDropArea.Text = "Drag and Drop Fonts Here";
             // 
@@ -65,7 +54,6 @@
             chkUIFont.TabIndex = 1;
             chkUIFont.Text = "Main UI Font";
             chkUIFont.UseVisualStyleBackColor = true;
-            chkUIFont.CheckedChanged += chkUIFont_CheckedChanged;
             // 
             // chkNormalFont
             // 
@@ -165,7 +153,7 @@
             btnRestoreDefaults.UseVisualStyleBackColor = true;
             btnRestoreDefaults.Click += btnRestoreDefaults_Click;
             // 
-            // Form1
+            // WoWFontChanger
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -183,7 +171,7 @@
             Controls.Add(lblDropArea);
             Controls.Add(pictureBox1);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            Name = "Form1";
+            Name = "WoWFontChanger";
             Text = "WoW Font Changer";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
