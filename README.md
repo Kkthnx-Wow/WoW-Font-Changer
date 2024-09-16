@@ -5,7 +5,7 @@
 ![{0006430C-235A-4D9F-AAB1-4172944487A8}](https://github.com/user-attachments/assets/ae345152-48a6-4860-8109-f8e375684cdd)
 
 ## Show Your Support
-Appreciate the hard work that goes into KkthnxUI? Consider showing your support:
+Appreciate the hard work that goes into WoW Font Changer? Consider showing your support:
 
 - **Gift Gametime/Blizzard Balance**: Send to Kkthnx's gamertag: **Kkthnx#1105** or via **JRussell20@gmail.com**.
 - **Donate via PayPal**: [PayPal Donation](https://www.paypal.com/paypalme/kkthnxtv).
