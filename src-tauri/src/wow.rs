@@ -1,14 +1,12 @@
-mod wow_paths;
-
+use crate::wow_paths::{
+    collect_extended_install_candidates, collect_install_candidates, is_flavor_folder,
+    is_wow_base,
+};
 use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
 use std::io::{Read, Write};
 use std::path::{Path, PathBuf};
 use tokio::fs;
-use wow_paths::{
-    collect_extended_install_candidates, collect_install_candidates, is_flavor_folder,
-    is_wow_base,
-};
 
 const BACKUP_DIR: &str = ".backup";
 const APPLIED_MANIFEST: &str = ".applied";
@@ -100,7 +98,7 @@ pub struct DetectResult {
 }
 
 impl DetectResult {
-    fn empty() -> Self {
+    pub fn empty() -> Self {
         Self {
             base_path: None,
             retail: None,

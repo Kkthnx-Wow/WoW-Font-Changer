@@ -1,4 +1,5 @@
 mod wow;
+mod wow_paths;
 
 use wow::{
     apply_custom_font_async, detect_wow_path_sync, restore_defaults_async,
