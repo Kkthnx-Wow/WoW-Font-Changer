@@ -2,7 +2,7 @@
 
 **WoW Font Changer** is a lightweight cross-platform desktop app that replaces World of Warcraft's default UI fonts with your own `.ttf` or `.otf` files. Drop a font, preview it live, pick which slots to update, and apply — no addons, no manual file renaming.
 
-Created by **Kkthnx** · **v2.1.0**
+Created by **Kkthnx** · **v2.1.1**
 
 ![WoW Font Changer](public/logo.png)
 
@@ -12,6 +12,7 @@ Grab the latest installer from [Releases](https://github.com/Kkthnx-Wow/WoW-Font
 
 | Version | Notes |
 |---------|-------|
+| **2.1.1** | Fix font preview — CSP and asset protocol scope for `convertFileSrc` |
 | **2.1.0** | Multi-drive scan, all WoW flavors (PTR/beta/anniversary), macOS & Linux, 10 UI languages, Korean/Chinese locale fonts |
 | **2.0.0** | Complete rewrite — Tauri + Rust, live preview, slug cache cleanup |
 | 1.x | Legacy .NET app (archived in release history) |

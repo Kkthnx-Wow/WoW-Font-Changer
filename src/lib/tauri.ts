@@ -55,7 +55,13 @@ export async function loadPreviewFont(path: string): Promise<string> {
 
   const url = convertFileSrc(path);
   const face = new FontFace(PREVIEW_FAMILY, `url("${url}")`);
-  await face.load();
+  try {
+    await face.load();
+  } catch {
+    throw new Error(
+      "Could not load font preview. The file may be invalid or inaccessible.",
+    );
+  }
   document.fonts.add(face);
   activePreviewFace = face;
   return PREVIEW_FAMILY;
