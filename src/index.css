@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+@theme {
+  --color-charcoal: #0d0e12;
+  --color-charcoal-light: #14161c;
+  --color-charcoal-mid: #1a1d26;
+  --color-gold: #d4af37;
+  --color-gold-bright: #e5c158;
+  --color-gold-dim: #a8892a;
+  --color-glass: rgb(20 22 28 / 0.72);
+  --color-glass-border: rgb(212 175 55 / 0.18);
+  --font-sans: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background: var(--color-charcoal);
+  color: #e8eaef;
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(212 175 55 / 0.35);
+  border-radius: 999px;
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 12px rgb(212 175 55 / 0.25);
+  }
+  50% {
+    box-shadow: 0 0 22px rgb(229 193 88 / 0.45);
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-in-right {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.drawer-backdrop {
+  animation: fade-in 0.2s ease-out;
+}
+
+.drawer-panel {
+  animation: slide-in-right 0.28s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.status-text {
+  user-select: text;
+  cursor: text;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2.4s ease-in-out infinite;
+}

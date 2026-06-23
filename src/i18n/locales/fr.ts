@@ -1,0 +1,140 @@
+import type { Translation } from "../types";
+
+export const fr: Translation = {
+  app: {
+    title: "WoW Font Changer",
+    subtitle: "Widget compact de polices",
+  },
+  header: { notInstalled: " (non installé)" },
+  dropzone: {
+    loadingPreview: "Chargement de l'aperçu de la police…",
+    dragDrop: "Glissez-déposez un .ttf / .otf ici",
+    dragDropHint:
+      "L'aperçu se met à jour instantanément. Les sources .otf sont enregistrées en .ttf pour WoW.",
+    browseFont: "Parcourir les fichiers de police",
+    loadedFont: "Police chargée",
+    clear: "Effacer",
+  },
+  preview: {
+    title: "Aperçu en direct",
+    combatLabel: "Texte de combat",
+    combatSample: "Coup critique ! 4 821",
+    questLabel: "Texte de quêtes et interface",
+    questSample: "Accepter la quête",
+    chatLabel: "Texte du chat",
+    chatSample: "Prêt !",
+    chatPlayer: "Joueur",
+  },
+  footer: {
+    working: "Traitement en cours…",
+    loading: "Chargement…",
+    applyFont: "Appliquer la police",
+    restoreDefaults: "Restaurer les valeurs par défaut",
+  },
+  settings: {
+    title: "Paramètres",
+    close: "Fermer les paramètres",
+    autoDetect: "Détection automatique de WoW",
+    autoDetectHintWindows: "Analyser le registre, tous les lecteurs et chemins courants",
+    autoDetectHintMac: "Analyser Applications, volumes et chemins courants",
+    autoDetectHintLinux: "Analyser le dossier Games, préfixes Wine et Lutris/Bottles",
+    noPathSelected: "Aucun chemin sélectionné",
+    browseWow: "Parcourir le dossier WoW",
+    activeTarget: "Cible active",
+    notDetected: "Non détecté",
+    fontTargets: "Cibles de police",
+    fontTargetsHint:
+      "WoW exige des noms de fichier exacts (sensibles à la casse) avec l'extension .ttf — même si votre police source est en .otf. L'application supprime aussi les anciens fichiers de cache GPU .slug / .slugo.",
+    localePacks: "Emplacements de polices régionales",
+    localePacksHint:
+      "Écrit également les fichiers de police spécifiques aux régions utilisés par les clients WoW non latins (cyrillique, coréen, chinois).",
+    compressBackup: "Compresser la sauvegarde",
+    compressBackupHint: "Zipper le dossier .backup après application",
+    language: "Langue",
+    languageHint: "Langue de l'interface de l'application",
+    about: "À propos",
+  },
+  fontMappings: {
+    combat: {
+      label: "Texte de combat",
+      description: "Chiffres de dégâts flottants",
+    },
+    chat: { label: "Chat", description: "Chat et petits textes d'information" },
+    mail: {
+      label: "Courrier et en-têtes de quêtes",
+      description: "Fenêtre de courrier et titres du journal de quêtes",
+    },
+    quest: {
+      label: "Quêtes et interface",
+      description: "Dialogues de quêtes, boutons, noms",
+    },
+    all: {
+      label: "Tout remplacer",
+      description: "Tous les emplacements de police latins de WoW",
+    },
+  },
+  localePacks: {
+    cyrillic: {
+      label: "Cyrillique",
+      description: "Clients russes et d'Europe de l'Est",
+    },
+    korean: {
+      label: "Coréen",
+      description: "Emplacements de police du client coréen",
+    },
+    chinese: {
+      label: "Chinois",
+      description: "Emplacements chinois simplifié et traditionnel",
+    },
+  },
+  gameVersions: {
+    retail: "Retail",
+    ptr: "Retail PTR",
+    beta: "Retail Beta",
+    xptr: "Retail PTR 2",
+    classic: "Classic",
+    classicPtr: "Classic PTR",
+    classicBeta: "Classic Beta",
+    classicTitan: "Classic Titan",
+    anniversary: "Anniversary",
+    era: "Era",
+    classicEraPtr: "Era PTR",
+    classicEraBeta: "Era Beta",
+  },
+  gameGroups: {
+    retail: "Retail",
+    classic: "Classic",
+    classicEra: "Classic Era",
+  },
+  dialogs: {
+    applyTitle: "Appliquer une police personnalisée ?",
+    applyBody:
+      "Cela remplacera les fichiers de police WoW dans votre dossier Fonts. Les originaux sont d'abord sauvegardés. Redémarrez WoW après l'application.",
+    applyOk: "Appliquer",
+    applyCancel: "Annuler",
+    restoreTitle: "Restaurer les valeurs par défaut ?",
+    restoreBody: "Restaurer les polices d'origine depuis le dossier .backup ?",
+    restoreOk: "Restaurer",
+    restoreCancel: "Annuler",
+    pickFontTitle: "Sélectionner un fichier de police",
+    pickWowTitle: "Sélectionner le dossier World of Warcraft",
+    fontFilter: "Police",
+  },
+  status: {
+    pathUpdated: "Chemin WoW mis à jour.",
+    applied: "Appliqué à {{count}} emplacements. Redémarrez WoW pour voir les changements.",
+    appliedOne: "Appliqué à 1 emplacement. Redémarrez WoW pour voir les changements.",
+    slugCleared: " {{count}} fichiers de cache Slug supprimés.",
+    slugClearedOne: " 1 fichier de cache Slug supprimé.",
+    backupZip: " Zip de sauvegarde : {{path}}",
+    restored: "{{count}} polices restaurées depuis la sauvegarde.",
+    restoredOne: "1 police restaurée depuis la sauvegarde.",
+    nothingToRestore: "Rien à restaurer.",
+  },
+  errors: {
+    dropFontFirst: "Déposez d'abord un fichier de police.",
+    selectTarget: "Sélectionnez au moins une cible de police dans les Paramètres.",
+    wowNotFound: "Installation de WoW introuvable. Définissez un chemin dans les Paramètres.",
+    fontMustBeTtfOtf: "La police doit être un fichier .ttf ou .otf",
+  },
+};

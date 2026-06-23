@@ -1,0 +1,140 @@
+import type { Translation } from "../types";
+
+export const zhCN: Translation = {
+  app: {
+    title: "WoW Font Changer",
+    subtitle: "紧凑字体工具",
+  },
+  header: { notInstalled: "（未安装）" },
+  dropzone: {
+    loadingPreview: "正在加载字体预览…",
+    dragDrop: "将 .ttf / .otf 拖放到此处",
+    dragDropHint:
+      "预览即时更新。.otf 源文件会保存为 WoW 所需的 .ttf 格式。",
+    browseFont: "浏览字体文件",
+    loadedFont: "已加载字体",
+    clear: "清除",
+  },
+  preview: {
+    title: "实时预览",
+    combatLabel: "战斗文字",
+    combatSample: "暴击！4,821",
+    questLabel: "任务与界面文字",
+    questSample: "接受任务",
+    chatLabel: "聊天文字",
+    chatSample: "准备好了！",
+    chatPlayer: "玩家",
+  },
+  footer: {
+    working: "处理中…",
+    loading: "加载中…",
+    applyFont: "应用字体",
+    restoreDefaults: "恢复默认",
+  },
+  settings: {
+    title: "设置",
+    close: "关闭设置",
+    autoDetect: "自动检测 WoW",
+    autoDetectHintWindows: "扫描注册表、所有驱动器及常见路径",
+    autoDetectHintMac: "扫描 Applications、卷宗及常见路径",
+    autoDetectHintLinux: "扫描 Games 文件夹、Wine 前缀及 Lutris/Bottles",
+    noPathSelected: "未选择路径",
+    browseWow: "浏览 WoW 文件夹",
+    activeTarget: "当前目标",
+    notDetected: "未检测到",
+    fontTargets: "字体目标",
+    fontTargetsHint:
+      "WoW 要求使用精确的文件名（区分大小写）且扩展名为 .ttf——即使源字体为 .otf。应用时还会清除过期的 .slug / .slugo GPU 缓存文件。",
+    localePacks: "区域字体槽位",
+    localePacksHint:
+      "同时写入非拉丁 WoW 客户端（西里尔、韩语、中文）使用的区域字体文件。",
+    compressBackup: "压缩备份",
+    compressBackupHint: "应用后将 .backup 文件夹打包为 zip",
+    language: "语言",
+    languageHint: "应用界面语言",
+    about: "关于",
+  },
+  fontMappings: {
+    combat: {
+      label: "战斗文字",
+      description: "浮动伤害数字",
+    },
+    chat: { label: "聊天", description: "聊天及小型提示文字" },
+    mail: {
+      label: "邮件与任务标题",
+      description: "邮件窗口及任务日志标题",
+    },
+    quest: {
+      label: "任务与界面",
+      description: "任务对话框、按钮、名称",
+    },
+    all: {
+      label: "全部替换",
+      description: "所有拉丁 WoW 字体槽位",
+    },
+  },
+  localePacks: {
+    cyrillic: {
+      label: "西里尔",
+      description: "俄语及东欧客户端",
+    },
+    korean: {
+      label: "韩语",
+      description: "韩语客户端字体槽位",
+    },
+    chinese: {
+      label: "中文",
+      description: "简体与繁体中文槽位",
+    },
+  },
+  gameVersions: {
+    retail: "Retail",
+    ptr: "Retail PTR",
+    beta: "Retail Beta",
+    xptr: "Retail PTR 2",
+    classic: "Classic",
+    classicPtr: "Classic PTR",
+    classicBeta: "Classic Beta",
+    classicTitan: "Classic Titan",
+    anniversary: "Anniversary",
+    era: "Era",
+    classicEraPtr: "Era PTR",
+    classicEraBeta: "Era Beta",
+  },
+  gameGroups: {
+    retail: "Retail",
+    classic: "Classic",
+    classicEra: "Classic Era",
+  },
+  dialogs: {
+    applyTitle: "应用自定义字体？",
+    applyBody:
+      "这将替换 Fonts 文件夹中的 WoW 字体文件。原始文件会先备份。应用后请重启 WoW。",
+    applyOk: "应用",
+    applyCancel: "取消",
+    restoreTitle: "恢复默认？",
+    restoreBody: "从 .backup 文件夹恢复原始字体？",
+    restoreOk: "恢复",
+    restoreCancel: "取消",
+    pickFontTitle: "选择字体文件",
+    pickWowTitle: "选择魔兽世界文件夹",
+    fontFilter: "字体",
+  },
+  status: {
+    pathUpdated: "WoW 路径已更新。",
+    applied: "已应用到 {{count}} 个槽位。重启 WoW 以查看更改。",
+    appliedOne: "已应用到 1 个槽位。重启 WoW 以查看更改。",
+    slugCleared: " 已清除 {{count}} 个 Slug 缓存文件。",
+    slugClearedOne: " 已清除 1 个 Slug 缓存文件。",
+    backupZip: " 备份 zip：{{path}}",
+    restored: "已从备份恢复 {{count}} 个字体。",
+    restoredOne: "已从备份恢复 1 个字体。",
+    nothingToRestore: "没有可恢复的内容。",
+  },
+  errors: {
+    dropFontFirst: "请先拖放字体文件。",
+    selectTarget: "请在设置中至少选择一个字体目标。",
+    wowNotFound: "未找到 WoW 安装。请在设置中指定路径。",
+    fontMustBeTtfOtf: "字体必须是 .ttf 或 .otf 文件",
+  },
+};

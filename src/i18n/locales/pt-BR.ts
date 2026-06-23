@@ -1,0 +1,140 @@
+import type { Translation } from "../types";
+
+export const ptBR: Translation = {
+  app: {
+    title: "WoW Font Changer",
+    subtitle: "Widget compacto de fontes",
+  },
+  header: { notInstalled: " (não instalado)" },
+  dropzone: {
+    loadingPreview: "Carregando pré-visualização da fonte…",
+    dragDrop: "Arraste e solte .ttf / .otf aqui",
+    dragDropHint:
+      "A pré-visualização atualiza na hora. Fontes .otf são salvas como .ttf para o WoW.",
+    browseFont: "Procurar arquivo de fonte",
+    loadedFont: "Fonte carregada",
+    clear: "Limpar",
+  },
+  preview: {
+    title: "Pré-visualização ao vivo",
+    combatLabel: "Texto de combate",
+    combatSample: "Acerto crítico! 4.821",
+    questLabel: "Texto de missões e interface",
+    questSample: "Aceitar missão",
+    chatLabel: "Texto do chat",
+    chatSample: "Pronto!",
+    chatPlayer: "Jogador",
+  },
+  footer: {
+    working: "Processando…",
+    loading: "Carregando…",
+    applyFont: "Aplicar fonte",
+    restoreDefaults: "Restaurar padrões",
+  },
+  settings: {
+    title: "Configurações",
+    close: "Fechar configurações",
+    autoDetect: "Detectar WoW automaticamente",
+    autoDetectHintWindows: "Verificar registro, todas as unidades e caminhos comuns",
+    autoDetectHintMac: "Verificar Applications, volumes e caminhos comuns",
+    autoDetectHintLinux: "Verificar pasta Games, prefixos Wine e Lutris/Bottles",
+    noPathSelected: "Nenhum caminho selecionado",
+    browseWow: "Procurar pasta do WoW",
+    activeTarget: "Destino ativo",
+    notDetected: "Não detectado",
+    fontTargets: "Destinos de fonte",
+    fontTargetsHint:
+      "O WoW exige nomes de arquivo exatos (diferenciam maiúsculas) com extensão .ttf — mesmo que a fonte de origem seja .otf. Ao aplicar, arquivos de cache GPU .slug / .slugo obsoletos também são removidos.",
+    localePacks: "Slots de fonte regional",
+    localePacksHint:
+      "Também grava arquivos de fonte específicos da região usados por clientes WoW não latinos (cirílico, coreano, chinês).",
+    compressBackup: "Comprimir backup",
+    compressBackupHint: "Compactar a pasta .backup em zip após aplicar",
+    language: "Idioma",
+    languageHint: "Idioma da interface do app",
+    about: "Sobre",
+  },
+  fontMappings: {
+    combat: {
+      label: "Texto de combate",
+      description: "Números de dano flutuantes",
+    },
+    chat: { label: "Chat", description: "Chat e textos informativos pequenos" },
+    mail: {
+      label: "Correio e cabeçalhos de missões",
+      description: "Janela de correio e títulos do registro de missões",
+    },
+    quest: {
+      label: "Missões e interface",
+      description: "Diálogos de missões, botões, nomes",
+    },
+    all: {
+      label: "Substituir tudo",
+      description: "Todos os slots de fonte latinos do WoW",
+    },
+  },
+  localePacks: {
+    cyrillic: {
+      label: "Cirílico",
+      description: "Clientes russos e do leste europeu",
+    },
+    korean: {
+      label: "Coreano",
+      description: "Slots de fonte do cliente coreano",
+    },
+    chinese: {
+      label: "Chinês",
+      description: "Slots de chinês simplificado e tradicional",
+    },
+  },
+  gameVersions: {
+    retail: "Retail",
+    ptr: "Retail PTR",
+    beta: "Retail Beta",
+    xptr: "Retail PTR 2",
+    classic: "Classic",
+    classicPtr: "Classic PTR",
+    classicBeta: "Classic Beta",
+    classicTitan: "Classic Titan",
+    anniversary: "Anniversary",
+    era: "Era",
+    classicEraPtr: "Era PTR",
+    classicEraBeta: "Era Beta",
+  },
+  gameGroups: {
+    retail: "Retail",
+    classic: "Classic",
+    classicEra: "Classic Era",
+  },
+  dialogs: {
+    applyTitle: "Aplicar fonte personalizada?",
+    applyBody:
+      "Isso substituirá os arquivos de fonte do WoW na pasta Fonts. Os originais são salvos em backup primeiro. Reinicie o WoW após aplicar.",
+    applyOk: "Aplicar",
+    applyCancel: "Cancelar",
+    restoreTitle: "Restaurar padrões?",
+    restoreBody: "Restaurar as fontes originais da pasta .backup?",
+    restoreOk: "Restaurar",
+    restoreCancel: "Cancelar",
+    pickFontTitle: "Selecionar arquivo de fonte",
+    pickWowTitle: "Selecionar pasta do World of Warcraft",
+    fontFilter: "Fonte",
+  },
+  status: {
+    pathUpdated: "Caminho do WoW atualizado.",
+    applied: "Aplicado a {{count}} slots. Reinicie o WoW para ver as alterações.",
+    appliedOne: "Aplicado a 1 slot. Reinicie o WoW para ver as alterações.",
+    slugCleared: " {{count}} arquivos de cache Slug removidos.",
+    slugClearedOne: " 1 arquivo de cache Slug removido.",
+    backupZip: " Zip de backup: {{path}}",
+    restored: "{{count}} fontes restauradas do backup.",
+    restoredOne: "1 fonte restaurada do backup.",
+    nothingToRestore: "Nada para restaurar.",
+  },
+  errors: {
+    dropFontFirst: "Solte um arquivo de fonte primeiro.",
+    selectTarget: "Selecione pelo menos um destino de fonte em Configurações.",
+    wowNotFound: "Instalação do WoW não encontrada. Defina um caminho em Configurações.",
+    fontMustBeTtfOtf: "A fonte deve ser um arquivo .ttf ou .otf",
+  },
+};

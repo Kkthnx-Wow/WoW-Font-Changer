@@ -1,0 +1,30 @@
+[package]
+name = "wow-font-changer"
+version = "2.1.0"
+description = "Ultra-lightweight WoW font replacement widget"
+authors = ["Kkthnx"]
+edition = "2021"
+
+[lib]
+name = "wow_font_changer_lib"
+crate-type = ["rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = ["protocol-asset"] }
+tauri-plugin-dialog = "2"
+serde = { version = "1", features = ["derive"] }
+tokio = { version = "1", features = ["fs", "io-util"] }
+zip = { version = "2", default-features = false, features = ["deflate"] }
+
+[target.'cfg(windows)'.dependencies]
+winreg = "0.52"
+
+[profile.release]
+opt-level = "s"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true

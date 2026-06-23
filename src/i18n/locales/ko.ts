@@ -1,0 +1,140 @@
+import type { Translation } from "../types";
+
+export const ko: Translation = {
+  app: {
+    title: "WoW Font Changer",
+    subtitle: "간편한 글꼴 위젯",
+  },
+  header: { notInstalled: " (미설치)" },
+  dropzone: {
+    loadingPreview: "글꼴 미리보기 로딩 중…",
+    dragDrop: ".ttf / .otf 파일을 여기에 끌어다 놓기",
+    dragDropHint:
+      "미리보기가 즉시 업데이트됩니다. .otf 원본은 WoW용 .ttf로 저장됩니다.",
+    browseFont: "글꼴 파일 찾아보기",
+    loadedFont: "불러온 글꼴",
+    clear: "지우기",
+  },
+  preview: {
+    title: "실시간 미리보기",
+    combatLabel: "전투 텍스트",
+    combatSample: "치명타! 4,821",
+    questLabel: "퀘스트 및 UI 텍스트",
+    questSample: "퀘스트 수락",
+    chatLabel: "채팅 텍스트",
+    chatSample: "준비 완료!",
+    chatPlayer: "플레이어",
+  },
+  footer: {
+    working: "작업 중…",
+    loading: "로딩 중…",
+    applyFont: "글꼴 적용",
+    restoreDefaults: "기본값 복원",
+  },
+  settings: {
+    title: "설정",
+    close: "설정 닫기",
+    autoDetect: "WoW 자동 감지",
+    autoDetectHintWindows: "레지스트리, 모든 드라이브 및 일반 경로 검색",
+    autoDetectHintMac: "Applications, 볼륨 및 일반 경로 검색",
+    autoDetectHintLinux: "Games 폴더, Wine 접두사 및 Lutris/Bottles 검색",
+    noPathSelected: "경로가 선택되지 않음",
+    browseWow: "WoW 폴더 찾아보기",
+    activeTarget: "활성 대상",
+    notDetected: "감지되지 않음",
+    fontTargets: "글꼴 대상",
+    fontTargetsHint:
+      "WoW는 원본 글꼴이 .otf여도 .ttf 확장자의 정확한 파일명(대소문자 구분)을 요구합니다. 적용 시 오래된 .slug / .slugo GPU 캐시 파일도 삭제됩니다.",
+    localePacks: "지역 글꼴 슬롯",
+    localePacksHint:
+      "비라틴 WoW 클라이언트(키릴, 한국어, 중국어)에서 사용하는 지역별 글꼴 파일도 기록합니다.",
+    compressBackup: "백업 압축",
+    compressBackupHint: "적용 후 .backup 폴더를 zip으로 압축",
+    language: "언어",
+    languageHint: "앱 인터페이스 언어",
+    about: "정보",
+  },
+  fontMappings: {
+    combat: {
+      label: "전투 텍스트",
+      description: "떠다니는 피해 숫자",
+    },
+    chat: { label: "채팅", description: "채팅 및 작은 안내 텍스트" },
+    mail: {
+      label: "우편 및 퀘스트 제목",
+      description: "우편 창 및 퀘스트 목록 제목",
+    },
+    quest: {
+      label: "퀘스트 및 UI",
+      description: "퀘스트 대화, 버튼, 이름",
+    },
+    all: {
+      label: "전체 교체",
+      description: "모든 라틴 WoW 글꼴 슬롯",
+    },
+  },
+  localePacks: {
+    cyrillic: {
+      label: "키릴",
+      description: "러시아 및 동유럽 클라이언트",
+    },
+    korean: {
+      label: "한국어",
+      description: "한국어 클라이언트 글꼴 슬롯",
+    },
+    chinese: {
+      label: "중국어",
+      description: "간체 및 번체 중국어 슬롯",
+    },
+  },
+  gameVersions: {
+    retail: "Retail",
+    ptr: "Retail PTR",
+    beta: "Retail Beta",
+    xptr: "Retail PTR 2",
+    classic: "Classic",
+    classicPtr: "Classic PTR",
+    classicBeta: "Classic Beta",
+    classicTitan: "Classic Titan",
+    anniversary: "Anniversary",
+    era: "Era",
+    classicEraPtr: "Era PTR",
+    classicEraBeta: "Era Beta",
+  },
+  gameGroups: {
+    retail: "Retail",
+    classic: "Classic",
+    classicEra: "Classic Era",
+  },
+  dialogs: {
+    applyTitle: "사용자 글꼴을 적용할까요?",
+    applyBody:
+      "Fonts 폴더의 WoW 글꼴 파일이 교체됩니다. 원본은 먼저 백업됩니다. 적용 후 WoW를 재시작하세요.",
+    applyOk: "적용",
+    applyCancel: "취소",
+    restoreTitle: "기본값을 복원할까요?",
+    restoreBody: ".backup 폴더에서 원본 글꼴을 복원할까요?",
+    restoreOk: "복원",
+    restoreCancel: "취소",
+    pickFontTitle: "글꼴 파일 선택",
+    pickWowTitle: "월드 오브 워크래프트 폴더 선택",
+    fontFilter: "글꼴",
+  },
+  status: {
+    pathUpdated: "WoW 경로가 업데이트되었습니다.",
+    applied: "{{count}}개 슬롯에 적용되었습니다. 변경 사항을 보려면 WoW를 재시작하세요.",
+    appliedOne: "1개 슬롯에 적용되었습니다. 변경 사항을 보려면 WoW를 재시작하세요.",
+    slugCleared: " Slug 캐시 파일 {{count}}개를 삭제했습니다.",
+    slugClearedOne: " Slug 캐시 파일 1개를 삭제했습니다.",
+    backupZip: " 백업 zip: {{path}}",
+    restored: "백업에서 글꼴 {{count}}개를 복원했습니다.",
+    restoredOne: "백업에서 글꼴 1개를 복원했습니다.",
+    nothingToRestore: "복원할 항목이 없습니다.",
+  },
+  errors: {
+    dropFontFirst: "먼저 글꼴 파일을 끌어다 놓으세요.",
+    selectTarget: "설정에서 글꼴 대상을 하나 이상 선택하세요.",
+    wowNotFound: "WoW 설치를 찾을 수 없습니다. 설정에서 경로를 지정하세요.",
+    fontMustBeTtfOtf: "글꼴은 .ttf 또는 .otf 파일이어야 합니다",
+  },
+};
