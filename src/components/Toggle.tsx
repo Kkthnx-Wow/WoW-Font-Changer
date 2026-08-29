@@ -4,7 +4,7 @@ interface ToggleProps {
   label?: string;
 }
 
-/** Padding-based switch — knob stays inside track at both positions. */
+/** Padding-based switch, the knob stays inside the track at both positions. */
 export function Toggle({ checked, onChange, label }: ToggleProps) {
   return (
     <button

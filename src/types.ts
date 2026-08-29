@@ -16,7 +16,7 @@ export type FontMapping = "combat" | "chat" | "mail" | "quest" | "all";
 
 export type LocalePack = "cyrillic" | "korean" | "chinese";
 
-/** Exact WoW Fonts/ override names — case-sensitive, always `.ttf`. */
+/** Exact WoW Fonts/ override names, case-sensitive and always `.ttf`. */
 export const WOW_FONT_FILES = [
   "skurri.ttf",
   "ARIALN.ttf",

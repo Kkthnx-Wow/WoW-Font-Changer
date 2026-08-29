@@ -42,7 +42,7 @@ function isFontFile(path: string): boolean {
   return lower.endsWith(".ttf") || lower.endsWith(".otf");
 }
 
-/** Load font via asset URL — zero IPC byte transfer for preview. */
+/** Load font via asset URL for zero IPC byte transfer on preview. */
 export async function loadPreviewFont(path: string): Promise<string> {
   if (!isFontFile(path)) {
     throw new Error("Font must be a .ttf or .otf file");

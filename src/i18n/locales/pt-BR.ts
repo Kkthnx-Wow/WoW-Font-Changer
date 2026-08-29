@@ -44,7 +44,7 @@ export const ptBR: Translation = {
     notDetected: "Não detectado",
     fontTargets: "Destinos de fonte",
     fontTargetsHint:
-      "O WoW exige nomes de arquivo exatos (diferenciam maiúsculas) com extensão .ttf — mesmo que a fonte de origem seja .otf. Ao aplicar, arquivos de cache GPU .slug / .slugo obsoletos também são removidos.",
+      "O WoW exige nomes de arquivo exatos (diferenciam maiúsculas) com extensão .ttf, mesmo que a fonte de origem seja .otf. Ao aplicar, arquivos de cache GPU .slug / .slugo obsoletos também são removidos.",
     localePacks: "Slots de fonte regional",
     localePacksHint:
       "Também grava arquivos de fonte específicos da região usados por clientes WoW não latinos (cirílico, coreano, chinês).",

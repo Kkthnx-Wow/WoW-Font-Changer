@@ -247,7 +247,7 @@ pub(crate) fn collect_install_candidates() -> Vec<PathBuf> {
     candidates
 }
 
-/// Extra scan pass — all drive letters on Windows (slower).
+/// Extra scan pass over all drive letters on Windows (slower).
 pub(crate) fn collect_extended_install_candidates() -> Vec<PathBuf> {
     let mut seen = HashSet::new();
     let mut candidates = Vec::new();
@@ -315,5 +315,30 @@ fn push_extended_candidates(paths: &mut Vec<PathBuf>, seen: &mut HashSet<PathBuf
                 &drive.join("Program Files").join("Blizzard"),
             );
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn flavor_folders_are_recognized() {
+        assert!(is_flavor_folder(&PathBuf::from("games").join("wow").join("_retail_")));
+        assert!(is_flavor_folder(&PathBuf::from("_classic_era_")));
+        assert!(!is_flavor_folder(&PathBuf::from("games").join("World of Warcraft")));
+    }
+
+    #[test]
+    fn normalize_climbs_out_of_a_flavor_folder() {
+        let base = PathBuf::from("games").join("World of Warcraft");
+        let flavor = base.join("_retail_");
+        assert_eq!(normalize_to_wow_base(flavor), base);
+    }
+
+    #[test]
+    fn normalize_leaves_a_base_path_untouched() {
+        let base = PathBuf::from("games").join("World of Warcraft");
+        assert_eq!(normalize_to_wow_base(base.clone()), base);
     }
 }

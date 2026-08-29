@@ -12,7 +12,7 @@ interface LogoProps {
   className?: string;
 }
 
-/** In-app logo — brightened for dark UI; title bar uses processed ICO separately. */
+/** In-app logo, brightened for dark UI. The title bar uses a processed ICO separately. */
 export const Logo = memo(function Logo({ size = "header", className = "" }: LogoProps) {
   return (
     <img

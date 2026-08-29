@@ -10,7 +10,7 @@ const UI_OUT = "public/logo.png";
 const TAURI_OUT = "app-icon-bright.png";
 const OUTPUT_SIZE = 1024;
 
-/** In-app logo — slight breathing room. Taskbar ICO — fill almost entire canvas. */
+/** In-app logo keeps slight breathing room. Taskbar ICO fills almost the entire canvas. */
 const UI_FILL = 0.86;
 const TASKBAR_FILL = 0.94;
 

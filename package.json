@@ -2,6 +2,8 @@
   "name": "wow-font-changer",
   "private": true,
   "version": "2.1.1",
+  "license": "UNLICENSED",
+  "author": "Kkthnx",
   "type": "module",
   "scripts": {
     "dev": "vite",
