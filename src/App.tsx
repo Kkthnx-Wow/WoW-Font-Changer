@@ -23,6 +23,10 @@ function WidgetShell() {
   );
 
   useEffect(() => {
+    // Native drag and drop only exists under the Tauri runtime. Guard it so the
+    // app still renders (instead of hard-crashing) in a plain browser.
+    if (!("__TAURI_INTERNALS__" in window)) return;
+
     let unlisten: (() => void) | undefined;
 
     void getCurrentWindow()

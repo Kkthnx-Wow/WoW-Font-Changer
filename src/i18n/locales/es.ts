@@ -45,6 +45,10 @@ export const es: Translation = {
     fontTargets: "Destinos de fuente",
     fontTargetsHint:
       "WoW requiere nombres de archivo exactos (distinguen mayúsculas) con extensión .ttf, aunque la fuente original sea .otf. Al aplicar también se eliminan archivos de caché GPU .slug / .slugo obsoletos.",
+    perSlotFonts: "Fuentes por ranura",
+    perSlotFontsHint:
+      "Opcional. Asigna a una ranura su propia fuente. Las ranuras vacías usan la fuente principal de arriba.",
+    perSlotUsesMain: "Usa la fuente principal",
     localePacks: "Ranuras de fuente regional",
     localePacksHint:
       "También escribe archivos de fuente específicos de la región usados por clientes de WoW no latinos (cirílico, coreano, chino).",

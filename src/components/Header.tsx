@@ -18,7 +18,7 @@ export function Header() {
             {t.app.title}
           </h1>
           <p className="text-[10px] text-white/40 truncate">
-            v{APP_VERSION} · {t.app.subtitle}
+            v{APP_VERSION}, {t.app.subtitle}
           </p>
         </div>
       </div>

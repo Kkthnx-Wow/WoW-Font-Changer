@@ -2,8 +2,8 @@ mod wow;
 mod wow_paths;
 
 use wow::{
-    apply_custom_font_async, detect_wow_path_sync, restore_defaults_async,
-    validate_wow_path_async, ApplyResult, DetectResult,
+    apply_custom_font_async, apply_font_assignments_async, detect_wow_path_sync,
+    restore_defaults_async, validate_wow_path_async, ApplyResult, DetectResult, FontAssignment,
 };
 
 #[tauri::command]
@@ -39,6 +39,16 @@ async fn apply_custom_font(
 }
 
 #[tauri::command]
+async fn apply_custom_fonts(
+    wow_path: String,
+    game_version: String,
+    assignments: Vec<FontAssignment>,
+    compress_backup: bool,
+) -> Result<ApplyResult, String> {
+    apply_font_assignments_async(wow_path, game_version, assignments, compress_backup).await
+}
+
+#[tauri::command]
 async fn restore_defaults(wow_path: String, game_version: String) -> Result<Vec<String>, String> {
     restore_defaults_async(wow_path, game_version).await
 }
@@ -51,6 +61,7 @@ pub fn run() {
             detect_wow_path,
             validate_wow_path,
             apply_custom_font,
+            apply_custom_fonts,
             restore_defaults,
         ])
         .run(tauri::generate_context!())

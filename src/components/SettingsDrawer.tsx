@@ -8,6 +8,7 @@ import {
   getFlavorPath,
   LOCALE_PACK_FILES,
   LOCALE_PACK_IDS,
+  SLOT_MAPPING_IDS,
 } from "../types";
 
 export function SettingsDrawer() {
@@ -24,6 +25,9 @@ export function SettingsDrawer() {
     gameVersion,
     locale,
     setLocale,
+    slotFonts,
+    setSlotFont,
+    clearSlotFont,
   } = useApp();
   const { t } = useI18n();
   const autoDetectHint = useAutoDetectHint();
@@ -172,10 +176,75 @@ export function SettingsDrawer() {
                           disabled ? "text-white/20" : "text-white/40"
                         }`}
                       >
-                        {mapping.description} · {target}
+                        {mapping.description}, {target}
                       </span>
                     </span>
                   </label>
+                );
+              })}
+            </div>
+          </section>
+
+          <section>
+            <p className="mb-2 text-[11px] font-medium text-white/85">
+              {t.settings.perSlotFonts}
+            </p>
+            <p className="mb-2 text-[9px] leading-relaxed text-white/35">
+              {t.settings.perSlotFontsHint}
+            </p>
+            <div className="space-y-1.5">
+              {SLOT_MAPPING_IDS.map((slot) => {
+                const assigned = slotFonts[slot];
+                return (
+                  <div
+                    key={slot}
+                    className="flex items-center justify-between gap-2 rounded-md border border-white/5 bg-charcoal/40 px-2.5 py-1.5"
+                  >
+                    <div className="min-w-0">
+                      <span className="block text-[11px] text-white/85">
+                        {t.fontMappings[slot].label}
+                      </span>
+                      <span
+                        className={`block truncate text-[9px] ${
+                          assigned ? "text-gold/70 select-text" : "text-white/35"
+                        }`}
+                      >
+                        {assigned ? assigned.name : t.settings.perSlotUsesMain}
+                      </span>
+                    </div>
+                    <div className="flex shrink-0 items-center gap-1">
+                      <button
+                        type="button"
+                        onClick={() => void setSlotFont(slot)}
+                        aria-label={t.dropzone.browseFont}
+                        className="rounded p-1 text-gold/70 hover:bg-white/5 hover:text-gold-bright"
+                      >
+                        <svg
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          className="h-4 w-4"
+                        >
+                          <path d="M3 5.5A1.5 1.5 0 0 1 4.5 4h3.1a1.5 1.5 0 0 1 1.2.6l.6.8a.5.5 0 0 0 .4.2h5.3A1.5 1.5 0 0 1 17 7.1V14a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 3 14V5.5Z" />
+                        </svg>
+                      </button>
+                      {assigned && (
+                        <button
+                          type="button"
+                          onClick={() => clearSlotFont(slot)}
+                          aria-label={t.dropzone.clear}
+                          className="rounded p-1 text-white/40 hover:bg-white/5 hover:text-white/70"
+                        >
+                          <svg
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            className="h-4 w-4"
+                          >
+                            <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
+                          </svg>
+                        </button>
+                      )}
+                    </div>
+                  </div>
                 );
               })}
             </div>

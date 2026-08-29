@@ -1,5 +1,5 @@
 import { convertFileSrc, invoke } from "@tauri-apps/api/core";
-import type { ApplyResult, DetectResult } from "../types";
+import type { ApplyResult, DetectResult, FontAssignment } from "../types";
 
 const PREVIEW_FAMILY = "WoWFontPreview";
 let activePreviewFace: FontFace | null = null;
@@ -26,6 +26,20 @@ export async function applyCustomFont(
     fontPath,
     mappings,
     localePacks,
+    compressBackup,
+  });
+}
+
+export async function applyCustomFonts(
+  wowPath: string,
+  gameVersion: string,
+  assignments: FontAssignment[],
+  compressBackup: boolean,
+): Promise<ApplyResult> {
+  return invoke<ApplyResult>("apply_custom_fonts", {
+    wowPath,
+    gameVersion,
+    assignments,
     compressBackup,
   });
 }

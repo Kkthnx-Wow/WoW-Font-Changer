@@ -45,6 +45,10 @@ export const de: Translation = {
     fontTargets: "Schriftziele",
     fontTargetsHint:
       "WoW erfordert exakte Dateinamen (Groß-/Kleinschreibung beachten) mit .ttf-Endung, auch wenn die Quellschrift .otf ist. Beim Anwenden werden veraltete .slug- / .slugo-GPU-Cache-Dateien gelöscht.",
+    perSlotFonts: "Schriften pro Slot",
+    perSlotFontsHint:
+      "Optional. Gib einem Slot eine eigene Schrift. Leere Slots nutzen die Hauptschrift oben.",
+    perSlotUsesMain: "Nutzt Hauptschrift",
     localePacks: "Regionale Schrift-Slots",
     localePacksHint:
       "Schreibt auch regionsspezifische Schriftdateien für nicht-lateinische WoW-Clients (Kyrillisch, Koreanisch, Chinesisch).",

@@ -45,6 +45,10 @@ export const it: Translation = {
     fontTargets: "Destinazioni font",
     fontTargetsHint:
       "WoW richiede nomi file esatti (con distinzione maiuscole/minuscole) con estensione .ttf, anche se il font di origine è .otf. L'applicazione elimina anche i file cache GPU .slug / .slugo obsoleti.",
+    perSlotFonts: "Font per slot",
+    perSlotFontsHint:
+      "Facoltativo. Assegna a uno slot un font dedicato. Gli slot vuoti usano il font principale qui sopra.",
+    perSlotUsesMain: "Usa il font principale",
     localePacks: "Slot font regionali",
     localePacksHint:
       "Scrive anche i file font specifici per regione usati dai client WoW non latini (cirillico, coreano, cinese).",
