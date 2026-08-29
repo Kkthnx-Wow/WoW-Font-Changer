@@ -9,5 +9,5 @@ export const APP_FEATURES = [
   "Auto-detects WoW install paths",
   "Granular font slot targeting",
   "Live preview before applying",
-  "Safe backup & restore",
+  "Safe backup and restore",
 ] as const;
