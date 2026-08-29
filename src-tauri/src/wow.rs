@@ -3,7 +3,7 @@ use crate::wow_paths::{
     is_wow_base,
 };
 use serde::{Deserialize, Serialize};
-use std::collections::HashSet;
+use std::collections::{BTreeSet, HashSet};
 use std::io::{Read, Write};
 use std::path::{Path, PathBuf};
 use tokio::fs;
@@ -11,8 +11,8 @@ use tokio::fs;
 const BACKUP_DIR: &str = ".backup";
 const APPLIED_MANIFEST: &str = ".applied";
 
-/// WoW `Fonts/` overrides — names are case-sensitive; extension must be `.ttf`.
-/// Latin `FRIZQT__.ttf` uses two underscores; Cyrillic `FRIZQT___CYR.ttf` uses three.
+/// WoW `Fonts/` overrides. Names are case-sensitive and the extension must be `.ttf`.
+/// Latin `FRIZQT__.ttf` uses two underscores, Cyrillic `FRIZQT___CYR.ttf` uses three.
 const FONT_TARGETS: &[(&str, &str, &str)] = &[
     ("combat", "skurri.ttf", "skurri_CYR.ttf"),
     ("chat", "ARIALN.ttf", "ARIALN_CYR.ttf"),
@@ -27,7 +27,7 @@ const ALL_WOW_FONT_FILES_LATIN: &[&str] = &[
     "FRIZQT__.ttf",
 ];
 
-/// Extra locale font slots beyond Latin — see Blizzard FontOverrides / community guides.
+/// Extra locale font slots beyond Latin, see Blizzard FontOverrides and community guides.
 const LOCALE_FONT_PACKS: &[(&str, &[&str])] = &[
     (
         "cyrillic",
@@ -62,7 +62,7 @@ const LOCALE_FONT_PACKS: &[(&str, &[&str])] = &[
     ),
 ];
 
-/// Blizzard client flavor folders — see warcraft.wiki.gg "API LatestInterface".
+/// Blizzard client flavor folders, see warcraft.wiki.gg "API LatestInterface".
 /// Keys match the frontend `GameVersion` ids (camelCase).
 const WOW_FLAVORS: &[(&str, &str)] = &[
     ("retail", "_retail_"),
@@ -147,7 +147,7 @@ fn file_locked_hint(raw_os_error: Option<i32>, message: &str) -> &'static str {
     }
 }
 
-/// WoW's Slug GPU font cache — safe to delete; the client regenerates on next launch.
+/// WoW's Slug GPU font cache, safe to delete since the client regenerates it on next launch.
 async fn clear_slug_cache(fonts_dir: &Path) -> Result<u32, String> {
     let mut cleared = 0u32;
     let mut entries = fs::read_dir(fonts_dir)
@@ -320,13 +320,14 @@ async fn ensure_backup(fonts_dir: &Path, backup_dir: &Path, target: &str) -> Res
 }
 
 fn compress_backup_dir_sync(backup_dir: &Path) -> Result<String, String> {
-    let zip_path = backup_dir
-        .parent()
-        .ok_or("Invalid backup path")?
-        .join(format!(
-            "wow-fonts-backup-{}.zip",
-            chrono_like_timestamp()
-        ));
+    // Write the archive into the flavor root (the folder that holds Fonts/) so we
+    // do not leave a stray zip sitting inside the directory WoW loads fonts from.
+    let fonts_dir = backup_dir.parent().ok_or("Invalid backup path")?;
+    let archive_dir = fonts_dir.parent().unwrap_or(fonts_dir);
+    let zip_path = archive_dir.join(format!(
+        "wow-fonts-backup-{}.zip",
+        chrono_like_timestamp()
+    ));
 
     let file = std::fs::File::create(&zip_path)
         .map_err(|e| format!("Failed to create zip archive: {}", e))?;
@@ -427,7 +428,30 @@ pub async fn apply_custom_font_async(
 
     let slug_cache_cleared = clear_slug_cache(&fonts_dir).await?;
 
-    fs::write(backup_dir.join(APPLIED_MANIFEST), applied.join("\n"))
+    // A default WoW install ships fonts inside CASC, so `Fonts/` is often empty
+    // and no originals get backed up. Make sure the backup dir exists before we
+    // record the manifest, otherwise applying to a clean install fails here.
+    fs::create_dir_all(&backup_dir)
+        .await
+        .map_err(|e| format!("Failed to create backup directory: {}", e))?;
+
+    // Accumulate the manifest across applies. Restore uses it to remove custom
+    // fonts that were added where WoW had no original, so applying different
+    // fonts to different slots one at a time must not forget earlier targets.
+    let manifest_path = backup_dir.join(APPLIED_MANIFEST);
+    let mut manifest_targets: std::collections::BTreeSet<String> = BTreeSet::new();
+    if let Ok(existing) = fs::read_to_string(&manifest_path).await {
+        for line in existing.lines() {
+            let entry = line.trim();
+            if !entry.is_empty() {
+                manifest_targets.insert(entry.to_string());
+            }
+        }
+    }
+    manifest_targets.extend(applied.iter().cloned());
+    let manifest_body = manifest_targets.into_iter().collect::<Vec<_>>().join("\n");
+
+    fs::write(&manifest_path, manifest_body)
         .await
         .map_err(|e| format!("Failed to write apply manifest: {}", e))?;
 
@@ -540,4 +564,71 @@ pub async fn validate_wow_path_async(path: String) -> Result<DetectResult, Strin
     }
 
     Ok(detect_flavors(&base))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn all_mapping_returns_every_latin_font() {
+        let files = resolve_target_files(&["all".into()], &[]).unwrap();
+        assert_eq!(files, ALL_WOW_FONT_FILES_LATIN);
+    }
+
+    #[test]
+    fn single_mapping_resolves_to_one_file() {
+        let files = resolve_target_files(&["quest".into()], &[]).unwrap();
+        assert_eq!(files, vec!["FRIZQT__.ttf".to_string()]);
+    }
+
+    #[test]
+    fn multiple_mappings_follow_declaration_order() {
+        // Selection order should not matter, output follows FONT_TARGETS order.
+        let files = resolve_target_files(&["chat".into(), "combat".into()], &[]).unwrap();
+        assert_eq!(
+            files,
+            vec!["skurri.ttf".to_string(), "ARIALN.ttf".to_string()]
+        );
+    }
+
+    #[test]
+    fn locale_pack_appends_extra_font_slots() {
+        let files = resolve_target_files(&["quest".into()], &["cyrillic".into()]).unwrap();
+        assert_eq!(
+            files,
+            vec![
+                "FRIZQT__.ttf".to_string(),
+                "skurri_CYR.ttf".to_string(),
+                "ARIALN_CYR.ttf".to_string(),
+                "MORPHEUS_CYR.ttf".to_string(),
+                "FRIZQT___CYR.ttf".to_string(),
+            ]
+        );
+    }
+
+    #[test]
+    fn empty_selection_is_rejected() {
+        assert!(resolve_target_files(&[], &[]).is_err());
+    }
+
+    #[test]
+    fn unknown_mapping_and_pack_are_rejected() {
+        assert!(resolve_target_files(&["bogus".into()], &[]).is_err());
+        assert!(resolve_target_files(&["quest".into()], &["bogus".into()]).is_err());
+    }
+
+    #[test]
+    fn flavor_folder_names_map_from_frontend_ids() {
+        assert_eq!(flavor_folder_name("retail"), Some("_retail_"));
+        assert_eq!(flavor_folder_name("era"), Some("_classic_era_"));
+        assert_eq!(flavor_folder_name("bogus"), None);
+    }
+
+    #[test]
+    fn slug_cache_files_are_detected_case_insensitively() {
+        assert!(is_slug_cache_file("FRIZQT__.slug"));
+        assert!(is_slug_cache_file("something.SLUGO"));
+        assert!(!is_slug_cache_file("FRIZQT__.ttf"));
+    }
 }

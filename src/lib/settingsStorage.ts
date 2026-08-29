@@ -83,6 +83,6 @@ export function savePersistedSettings(data: PersistedSettings): void {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     localStorage.removeItem(LEGACY_STORAGE_KEY);
   } catch {
-    // Quota or private mode — non-fatal
+    // Quota or private mode, non-fatal
   }
 }

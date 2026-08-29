@@ -44,7 +44,7 @@ export const fr: Translation = {
     notDetected: "Non détecté",
     fontTargets: "Cibles de police",
     fontTargetsHint:
-      "WoW exige des noms de fichier exacts (sensibles à la casse) avec l'extension .ttf — même si votre police source est en .otf. L'application supprime aussi les anciens fichiers de cache GPU .slug / .slugo.",
+      "WoW exige des noms de fichier exacts (sensibles à la casse) avec l'extension .ttf, même si votre police source est en .otf. L'application supprime aussi les anciens fichiers de cache GPU .slug / .slugo.",
     localePacks: "Emplacements de polices régionales",
     localePacksHint:
       "Écrit également les fichiers de police spécifiques aux régions utilisés par les clients WoW non latins (cyrillique, coréen, chinois).",
