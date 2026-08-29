@@ -45,6 +45,10 @@ export const ptBR: Translation = {
     fontTargets: "Destinos de fonte",
     fontTargetsHint:
       "O WoW exige nomes de arquivo exatos (diferenciam maiúsculas) com extensão .ttf, mesmo que a fonte de origem seja .otf. Ao aplicar, arquivos de cache GPU .slug / .slugo obsoletos também são removidos.",
+    perSlotFonts: "Fontes por slot",
+    perSlotFontsHint:
+      "Opcional. Dê a um slot a sua própria fonte. Slots vazios usam a fonte principal acima.",
+    perSlotUsesMain: "Usa a fonte principal",
     localePacks: "Slots de fonte regional",
     localePacksHint:
       "Também grava arquivos de fonte específicos da região usados por clientes WoW não latinos (cirílico, coreano, chinês).",

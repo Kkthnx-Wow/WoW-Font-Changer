@@ -45,6 +45,9 @@ export const zhCN: Translation = {
     fontTargets: "字体目标",
     fontTargetsHint:
       "WoW 要求使用精确的文件名（区分大小写）且扩展名为 .ttf，即使源字体为 .otf。应用时还会清除过期的 .slug / .slugo GPU 缓存文件。",
+    perSlotFonts: "各槽位字体",
+    perSlotFontsHint: "可选。为某个槽位单独指定字体。留空的槽位使用上方的主字体。",
+    perSlotUsesMain: "使用主字体",
     localePacks: "区域字体槽位",
     localePacksHint:
       "同时写入非拉丁 WoW 客户端（西里尔、韩语、中文）使用的区域字体文件。",

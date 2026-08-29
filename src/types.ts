@@ -14,7 +14,19 @@ export type GameVersion =
 
 export type FontMapping = "combat" | "chat" | "mail" | "quest" | "all";
 
+/** The four Latin slots that can each take their own font in advanced mode. */
+export type SlotMapping = "combat" | "chat" | "mail" | "quest";
+
+export const SLOT_MAPPING_IDS: SlotMapping[] = ["combat", "chat", "mail", "quest"];
+
 export type LocalePack = "cyrillic" | "korean" | "chinese";
+
+/** One font paired with the slots it fills. The backend applies a list of these. */
+export interface FontAssignment {
+  fontPath: string;
+  mappings: FontMapping[];
+  localePacks: LocalePack[];
+}
 
 /** Exact WoW Fonts/ override names, case-sensitive and always `.ttf`. */
 export const WOW_FONT_FILES = [

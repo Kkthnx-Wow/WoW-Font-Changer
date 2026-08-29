@@ -45,6 +45,10 @@ export const en: Translation = {
     fontTargets: "Font Targets",
     fontTargetsHint:
       "WoW requires exact file names (case-sensitive) with a .ttf extension, even if your source font is .otf. Apply also clears stale .slug and .slugo GPU cache files.",
+    perSlotFonts: "Per-Slot Fonts",
+    perSlotFontsHint:
+      "Optional. Give a slot its own font. Slots left empty use the main font above.",
+    perSlotUsesMain: "Uses main font",
     localePacks: "Locale Font Slots",
     localePacksHint:
       "Also write region-specific font files used by non-Latin WoW clients (Cyrillic, Korean, Chinese).",

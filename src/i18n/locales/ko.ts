@@ -45,6 +45,10 @@ export const ko: Translation = {
     fontTargets: "글꼴 대상",
     fontTargetsHint:
       "WoW는 원본 글꼴이 .otf여도 .ttf 확장자의 정확한 파일명(대소문자 구분)을 요구합니다. 적용 시 오래된 .slug / .slugo GPU 캐시 파일도 삭제됩니다.",
+    perSlotFonts: "슬롯별 글꼴",
+    perSlotFontsHint:
+      "선택 사항. 각 슬롯에 개별 글꼴을 지정합니다. 비워 둔 슬롯은 위의 기본 글꼴을 사용합니다.",
+    perSlotUsesMain: "기본 글꼴 사용",
     localePacks: "지역 글꼴 슬롯",
     localePacksHint:
       "비라틴 WoW 클라이언트(키릴, 한국어, 중국어)에서 사용하는 지역별 글꼴 파일도 기록합니다.",

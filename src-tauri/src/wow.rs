@@ -3,7 +3,7 @@ use crate::wow_paths::{
     is_wow_base,
 };
 use serde::{Deserialize, Serialize};
-use std::collections::{BTreeSet, HashSet};
+use std::collections::{BTreeMap, BTreeSet, HashSet};
 use std::io::{Read, Write};
 use std::path::{Path, PathBuf};
 use tokio::fs;
@@ -233,10 +233,6 @@ fn resolve_target_files(
             targets.insert(file);
         }
 
-        if targets.is_empty() {
-            return Err("No font targets selected".into());
-        }
-
         FONT_TARGETS
             .iter()
             .filter_map(|(_, latin, _)| targets.get(latin).copied())
@@ -255,6 +251,11 @@ fn resolve_target_files(
         for file in pack_files {
             files.push((*file).to_string());
         }
+    }
+
+    // A locale-only selection (no Latin slot) is valid, but selecting nothing is not.
+    if files.is_empty() {
+        return Err("No font targets selected".into());
     }
 
     Ok(files)
@@ -377,17 +378,19 @@ fn chrono_like_timestamp() -> String {
         .unwrap_or_else(|_| "0".into())
 }
 
-pub async fn apply_custom_font_async(
-    wow_path: String,
-    game_version: String,
-    font_path: String,
-    mappings: Vec<String>,
-    locale_packs: Vec<String>,
-    compress_backup: bool,
-) -> Result<ApplyResult, String> {
-    let flavor_path = resolve_flavor_path(&wow_path, &game_version)?;
-    let source_font = PathBuf::from(&font_path);
+/// One font paired with the slots it should fill. A plain single-font apply is
+/// just one assignment, advanced per-slot mode sends several.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct FontAssignment {
+    pub font_path: String,
+    pub mappings: Vec<String>,
+    #[serde(default)]
+    pub locale_packs: Vec<String>,
+}
 
+fn validate_font_source(font_path: &str) -> Result<PathBuf, String> {
+    let source_font = PathBuf::from(font_path);
     if !source_font.exists() {
         return Err(format!("Font file not found: {}", font_path));
     }
@@ -402,24 +405,75 @@ pub async fn apply_custom_font_async(
         return Err("Font must be a .ttf or .otf file".into());
     }
 
+    Ok(source_font)
+}
+
+/// Map every selected target to the font that should fill it. Later assignments
+/// win when two of them name the same slot.
+fn build_apply_plan(assignments: &[FontAssignment]) -> Result<BTreeMap<String, PathBuf>, String> {
+    let mut plan: BTreeMap<String, PathBuf> = BTreeMap::new();
+
+    for assignment in assignments {
+        let source_font = validate_font_source(&assignment.font_path)?;
+        let targets = resolve_target_files(&assignment.mappings, &assignment.locale_packs)?;
+        for target in targets {
+            if !target.ends_with(".ttf") {
+                return Err(format!("Invalid WoW font target name: {}", target));
+            }
+            plan.insert(target, source_font.clone());
+        }
+    }
+
+    if plan.is_empty() {
+        return Err("No font targets selected".into());
+    }
+
+    Ok(plan)
+}
+
+pub async fn apply_custom_font_async(
+    wow_path: String,
+    game_version: String,
+    font_path: String,
+    mappings: Vec<String>,
+    locale_packs: Vec<String>,
+    compress_backup: bool,
+) -> Result<ApplyResult, String> {
+    apply_font_assignments_async(
+        wow_path,
+        game_version,
+        vec![FontAssignment {
+            font_path,
+            mappings,
+            locale_packs,
+        }],
+        compress_backup,
+    )
+    .await
+}
+
+pub async fn apply_font_assignments_async(
+    wow_path: String,
+    game_version: String,
+    assignments: Vec<FontAssignment>,
+    compress_backup: bool,
+) -> Result<ApplyResult, String> {
+    let flavor_path = resolve_flavor_path(&wow_path, &game_version)?;
+    let plan = build_apply_plan(&assignments)?;
+
     let fonts_dir = flavor_path.join("Fonts");
     fs::create_dir_all(&fonts_dir)
         .await
         .map_err(|e| format!("Failed to create Fonts directory: {}", e))?;
 
     let backup_dir = fonts_dir.join(BACKUP_DIR);
-    let targets = resolve_target_files(&mappings, &locale_packs)?;
     let mut applied = Vec::new();
 
-    for target in &targets {
-        if !target.ends_with(".ttf") {
-            return Err(format!("Invalid WoW font target name: {}", target));
-        }
-
+    for (target, source_font) in &plan {
         ensure_backup(&fonts_dir, &backup_dir, target).await?;
         let dest = fonts_dir.join(target);
         // WoW requires the `.ttf` extension even when the source file is `.otf`.
-        fs::copy(&source_font, &dest).await.map_err(|e| {
+        fs::copy(source_font, &dest).await.map_err(|e| {
             let hint = file_locked_hint(e.raw_os_error(), &e.to_string());
             format!("Failed to apply font to {}{}: {}", target, hint, e)
         })?;
@@ -610,6 +664,79 @@ mod tests {
     #[test]
     fn empty_selection_is_rejected() {
         assert!(resolve_target_files(&[], &[]).is_err());
+    }
+
+    #[test]
+    fn locale_only_selection_is_allowed() {
+        // No Latin slot, just a locale pack, should still resolve to that pack.
+        let files = resolve_target_files(&[], &["korean".into()]).unwrap();
+        assert_eq!(
+            files,
+            vec![
+                "2002.ttf".to_string(),
+                "2002B.ttf".to_string(),
+                "K_Damage.ttf".to_string(),
+                "K_Pagetext.ttf".to_string(),
+            ]
+        );
+    }
+
+    #[test]
+    fn apply_plan_maps_each_slot_to_its_font() {
+        let dir = std::env::temp_dir().join(format!("wfc_plan_{}", std::process::id()));
+        std::fs::create_dir_all(&dir).unwrap();
+        let font_a = dir.join("a.ttf");
+        let font_b = dir.join("b.otf");
+        std::fs::write(&font_a, b"a").unwrap();
+        std::fs::write(&font_b, b"b").unwrap();
+
+        let plan = build_apply_plan(&[
+            FontAssignment {
+                font_path: font_a.to_string_lossy().into_owned(),
+                mappings: vec!["combat".into()],
+                locale_packs: vec![],
+            },
+            FontAssignment {
+                font_path: font_b.to_string_lossy().into_owned(),
+                mappings: vec!["quest".into()],
+                locale_packs: vec![],
+            },
+        ])
+        .unwrap();
+
+        assert_eq!(plan.get("skurri.ttf"), Some(&font_a));
+        assert_eq!(plan.get("FRIZQT__.ttf"), Some(&font_b));
+
+        std::fs::remove_dir_all(&dir).ok();
+    }
+
+    #[test]
+    fn apply_plan_lets_a_later_assignment_win_the_same_slot() {
+        let dir = std::env::temp_dir().join(format!("wfc_plan_win_{}", std::process::id()));
+        std::fs::create_dir_all(&dir).unwrap();
+        let font_a = dir.join("a.ttf");
+        let font_b = dir.join("b.ttf");
+        std::fs::write(&font_a, b"a").unwrap();
+        std::fs::write(&font_b, b"b").unwrap();
+
+        let plan = build_apply_plan(&[
+            FontAssignment {
+                font_path: font_a.to_string_lossy().into_owned(),
+                mappings: vec!["all".into()],
+                locale_packs: vec![],
+            },
+            FontAssignment {
+                font_path: font_b.to_string_lossy().into_owned(),
+                mappings: vec!["quest".into()],
+                locale_packs: vec![],
+            },
+        ])
+        .unwrap();
+
+        assert_eq!(plan.get("FRIZQT__.ttf"), Some(&font_b));
+        assert_eq!(plan.get("skurri.ttf"), Some(&font_a));
+
+        std::fs::remove_dir_all(&dir).ok();
     }
 
     #[test]

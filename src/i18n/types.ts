@@ -70,6 +70,9 @@ export interface Translation {
     notDetected: string;
     fontTargets: string;
     fontTargetsHint: string;
+    perSlotFonts: string;
+    perSlotFontsHint: string;
+    perSlotUsesMain: string;
     localePacks: string;
     localePacksHint: string;
     compressBackup: string;

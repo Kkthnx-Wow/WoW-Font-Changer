@@ -15,7 +15,7 @@ import {
 } from "../i18n";
 import type { AppLocale } from "../i18n/types";
 import {
-  applyCustomFont,
+  applyCustomFonts,
   clearPreviewFont,
   detectWowPath,
   loadPreviewFont,
@@ -29,11 +29,36 @@ import {
 import type {
   AppSettings,
   DetectResult,
+  FontAssignment,
   FontMapping,
   GameVersion,
   LocalePack,
+  SlotMapping,
 } from "../types";
-import { GAME_VERSION_GROUPS, isVersionAvailable } from "../types";
+import {
+  GAME_VERSION_GROUPS,
+  isVersionAvailable,
+  SLOT_MAPPING_IDS,
+} from "../types";
+
+interface SlotFontRef {
+  path: string;
+  name: string;
+}
+
+type SlotFontMap = Record<SlotMapping, SlotFontRef | null>;
+
+const EMPTY_SLOT_FONTS: SlotFontMap = {
+  combat: null,
+  chat: null,
+  mail: null,
+  quest: null,
+};
+
+function isFontPath(path: string): boolean {
+  const lower = path.toLowerCase();
+  return lower.endsWith(".ttf") || lower.endsWith(".otf");
+}
 
 interface AppContextValue {
   locale: AppLocale;
@@ -55,6 +80,9 @@ interface AppContextValue {
   setFontFromPath: (path: string) => Promise<void>;
   pickFontFile: () => Promise<void>;
   clearFont: () => void;
+  slotFonts: SlotFontMap;
+  setSlotFont: (slot: SlotMapping) => Promise<void>;
+  clearSlotFont: (slot: SlotMapping) => void;
   pickManualPath: () => Promise<void>;
   applyFont: () => Promise<void>;
   restoreDefaultFonts: () => Promise<void>;
@@ -139,6 +167,7 @@ function AppProviderInner({
   const [fontName, setFontName] = useState<string | null>(null);
   const [previewFamily, setPreviewFamily] = useState<string | null>(null);
   const [isLoadingFont, setIsLoadingFont] = useState(false);
+  const [slotFonts, setSlotFonts] = useState<SlotFontMap>(EMPTY_SLOT_FONTS);
   const [status, setStatus] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isBusy, setIsBusy] = useState(false);
@@ -247,6 +276,31 @@ function AppProviderInner({
     setPreviewFamily(null);
   }, []);
 
+  const setSlotFont = useCallback(
+    async (slot: SlotMapping) => {
+      const selected = await open({
+        multiple: false,
+        title: t.dialogs.pickFontTitle,
+        filters: [{ name: t.dialogs.fontFilter, extensions: ["ttf", "otf"] }],
+      });
+      if (typeof selected !== "string") return;
+      if (!isFontPath(selected)) {
+        setError(t.errors.fontMustBeTtfOtf);
+        return;
+      }
+      setError(null);
+      setSlotFonts((prev) => ({
+        ...prev,
+        [slot]: { path: selected, name: pathBasename(selected) },
+      }));
+    },
+    [t],
+  );
+
+  const clearSlotFont = useCallback((slot: SlotMapping) => {
+    setSlotFonts((prev) => ({ ...prev, [slot]: null }));
+  }, []);
+
   const pickFontFile = useCallback(async () => {
     const selected = await open({
       multiple: false,
@@ -282,16 +336,44 @@ function AppProviderInner({
   }, [t, updateSettings]);
 
   const applyFont = useCallback(async () => {
-    if (!fontPath) {
-      setError(t.errors.dropFontFirst);
-      return;
-    }
     if (settings.fontMappings.length === 0) {
       setError(t.errors.selectTarget);
       return;
     }
     if (!activeWowPath) {
       setError(t.errors.wowNotFound);
+      return;
+    }
+
+    const selectedSlots: SlotMapping[] = settings.fontMappings.includes("all")
+      ? SLOT_MAPPING_IDS
+      : (settings.fontMappings.filter((m) => m !== "all") as SlotMapping[]);
+
+    // A slot with its own font becomes its own assignment. Every remaining slot
+    // falls back to the main dropped font, which also carries the locale packs.
+    const assignments: FontAssignment[] = [];
+    const primaryMappings: FontMapping[] = [];
+    for (const slot of selectedSlots) {
+      const override = slotFonts[slot];
+      if (override) {
+        assignments.push({
+          fontPath: override.path,
+          mappings: [slot],
+          localePacks: [],
+        });
+      } else if (fontPath) {
+        primaryMappings.push(slot);
+      }
+    }
+    if (fontPath && (primaryMappings.length > 0 || settings.localePacks.length > 0)) {
+      assignments.push({
+        fontPath,
+        mappings: primaryMappings,
+        localePacks: settings.localePacks,
+      });
+    }
+    if (assignments.length === 0) {
+      setError(t.errors.dropFontFirst);
       return;
     }
 
@@ -308,12 +390,10 @@ function AppProviderInner({
     setStatus(null);
 
     try {
-      const result = await applyCustomFont(
+      const result = await applyCustomFonts(
         activeWowPath,
         gameVersion,
-        fontPath,
-        settings.fontMappings,
-        settings.localePacks,
+        assignments,
         settings.compressBackup,
       );
       let msg =
@@ -335,7 +415,7 @@ function AppProviderInner({
     } finally {
       setIsBusy(false);
     }
-  }, [activeWowPath, fontPath, format, gameVersion, settings, t]);
+  }, [activeWowPath, fontPath, slotFonts, format, gameVersion, settings, t]);
 
   const restoreDefaultFonts = useCallback(async () => {
     if (!activeWowPath) {
@@ -392,6 +472,9 @@ function AppProviderInner({
       setFontFromPath,
       pickFontFile,
       clearFont,
+      slotFonts,
+      setSlotFont,
+      clearSlotFont,
       pickManualPath,
       applyFont,
       restoreDefaultFonts,
@@ -401,6 +484,7 @@ function AppProviderInner({
     }),
     [
       locale,
+      setLocale,
       gameVersion,
       settingsOpen,
       settings,
@@ -416,6 +500,9 @@ function AppProviderInner({
       setFontFromPath,
       pickFontFile,
       clearFont,
+      slotFonts,
+      setSlotFont,
+      clearSlotFont,
       pickManualPath,
       applyFont,
       restoreDefaultFonts,
