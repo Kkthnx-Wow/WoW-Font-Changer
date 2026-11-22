@@ -3,32 +3,38 @@ import type { Translation } from "../types";
 export const ko: Translation = {
   app: {
     title: "WoW Font Changer",
-    subtitle: "간편한 글꼴 위젯",
   },
-  header: { notInstalled: " (미설치)" },
+  header: { notInstalled: " (미설치)", openSettings: "설정 열기", gameVersion: "게임 버전" },
   dropzone: {
     loadingPreview: "글꼴 미리보기 로딩 중…",
     dragDrop: ".ttf / .otf 파일을 여기에 끌어다 놓기",
     dragDropHint:
       "미리보기가 즉시 업데이트됩니다. .otf 원본은 WoW용 .ttf로 저장됩니다.",
     browseFont: "글꼴 파일 찾아보기",
-    loadedFont: "불러온 글꼴",
     clear: "지우기",
+    change: "변경",
+    dropOverlay: "놓으면 글꼴을 불러옵니다",
   },
   preview: {
-    title: "실시간 미리보기",
-    combatLabel: "전투 텍스트",
     combatSample: "치명타! 4,821",
-    questLabel: "퀘스트 및 UI 텍스트",
     questSample: "퀘스트 수락",
-    chatLabel: "채팅 텍스트",
     chatSample: "준비 완료!",
     chatPlayer: "플레이어",
+    mailSample: "전선에서 온 편지",
+  },
+  slots: {
+    title: "슬롯",
+    ownFont: "개별 글꼴",
+    useMain: "기본 글꼴 사용",
+    notChanged: "변경 안 함",
+    needsFont: "글꼴 필요",
   },
   footer: {
     working: "작업 중…",
     loading: "로딩 중…",
     applyFont: "글꼴 적용",
+    applyCount: "슬롯 {{count}}개에 적용",
+    applyOne: "슬롯 1개에 적용",
     restoreDefaults: "기본값 복원",
   },
   settings: {
@@ -42,13 +48,6 @@ export const ko: Translation = {
     browseWow: "WoW 폴더 찾아보기",
     activeTarget: "활성 대상",
     notDetected: "감지되지 않음",
-    fontTargets: "글꼴 대상",
-    fontTargetsHint:
-      "WoW는 원본 글꼴이 .otf여도 .ttf 확장자의 정확한 파일명(대소문자 구분)을 요구합니다. 적용 시 오래된 .slug / .slugo GPU 캐시 파일도 삭제됩니다.",
-    perSlotFonts: "슬롯별 글꼴",
-    perSlotFontsHint:
-      "선택 사항. 각 슬롯에 개별 글꼴을 지정합니다. 비워 둔 슬롯은 위의 기본 글꼴을 사용합니다.",
-    perSlotUsesMain: "기본 글꼴 사용",
     localePacks: "지역 글꼴 슬롯",
     localePacksHint:
       "비라틴 WoW 클라이언트(키릴, 한국어, 중국어)에서 사용하는 지역별 글꼴 파일도 기록합니다.",
@@ -72,10 +71,6 @@ export const ko: Translation = {
       label: "퀘스트 및 UI",
       description: "퀘스트 대화, 버튼, 이름",
     },
-    all: {
-      label: "전체 교체",
-      description: "모든 라틴 WoW 글꼴 슬롯",
-    },
   },
   localePacks: {
     cyrillic: {
@@ -96,6 +91,7 @@ export const ko: Translation = {
     ptr: "Retail PTR",
     beta: "Retail Beta",
     xptr: "Retail PTR 2",
+    forever: "Forever",
     classic: "Classic",
     classicPtr: "Classic PTR",
     classicBeta: "Classic Beta",
@@ -107,6 +103,7 @@ export const ko: Translation = {
   },
   gameGroups: {
     retail: "Retail",
+    forever: "Forever",
     classic: "Classic",
     classicEra: "Classic Era",
   },
@@ -137,7 +134,7 @@ export const ko: Translation = {
   },
   errors: {
     dropFontFirst: "먼저 글꼴 파일을 끌어다 놓으세요.",
-    selectTarget: "설정에서 글꼴 대상을 하나 이상 선택하세요.",
+    selectTarget: "슬롯을 하나 이상 선택하세요.",
     wowNotFound: "WoW 설치를 찾을 수 없습니다. 설정에서 경로를 지정하세요.",
     fontMustBeTtfOtf: "글꼴은 .ttf 또는 .otf 파일이어야 합니다",
   },

@@ -1,6 +1,6 @@
 import type { AppLocale } from "../i18n/types";
 import type { AppSettings, GameVersion, LocalePack } from "../types";
-import { FONT_MAPPING_IDS, LOCALE_PACK_IDS } from "../types";
+import { FONT_MAPPING_IDS, isGameVersion, LOCALE_PACK_IDS } from "../types";
 
 const STORAGE_KEY = "wow-font-changer-settings-v3";
 const LEGACY_STORAGE_KEY = "wow-font-changer-settings-v2";
@@ -34,15 +34,16 @@ function migrateSettings(raw: LegacySettingsV2): AppSettings {
     (raw.includeCyrillic ? (["cyrillic"] as LocalePack[]) : [])
   ).filter((pack): pack is LocalePack => LOCALE_PACK_IDS.includes(pack));
 
-  const fontMappings = (raw.fontMappings ?? ["all"]).filter((mapping) =>
-    FONT_MAPPING_IDS.includes(mapping),
-  );
+  // An explicitly empty selection is a valid choice, keep it. Only a missing
+  // field falls back to every slot.
+  const fontMappings = Array.isArray(raw.fontMappings)
+    ? raw.fontMappings.filter((mapping) => FONT_MAPPING_IDS.includes(mapping))
+    : defaultSettings.fontMappings;
 
   return {
     autoDetect: raw.autoDetect ?? defaultSettings.autoDetect,
     manualPath: raw.manualPath ?? defaultSettings.manualPath,
-    fontMappings:
-      fontMappings.length > 0 ? fontMappings : defaultSettings.fontMappings,
+    fontMappings,
     localePacks,
     compressBackup: raw.compressBackup ?? defaultSettings.compressBackup,
   };
@@ -54,7 +55,9 @@ export function loadPersistedSettings(): Partial<PersistedSettings> | null {
     if (rawV3) {
       const parsed = JSON.parse(rawV3) as Partial<PersistedSettings>;
       return {
-        ...parsed,
+        locale: parsed.locale,
+        // A stored id from a newer or older build may not exist any more.
+        gameVersion: isGameVersion(parsed.gameVersion) ? parsed.gameVersion : undefined,
         settings: migrateSettings(parsed.settings ?? {}),
       };
     }
@@ -70,7 +73,7 @@ export function loadPersistedSettings(): Partial<PersistedSettings> | null {
 
     return {
       locale: parsed.locale,
-      gameVersion: parsed.gameVersion,
+      gameVersion: isGameVersion(parsed.gameVersion) ? parsed.gameVersion : undefined,
       settings: migrateSettings(parsed.settings ?? {}),
     };
   } catch {

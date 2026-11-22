@@ -3,32 +3,38 @@ import type { Translation } from "../types";
 export const ru: Translation = {
   app: {
     title: "WoW Font Changer",
-    subtitle: "Компактный виджет шрифтов",
   },
-  header: { notInstalled: " (не установлено)" },
+  header: { notInstalled: " (не установлено)", openSettings: "Открыть настройки", gameVersion: "Версия игры" },
   dropzone: {
     loadingPreview: "Загрузка предпросмотра шрифта…",
     dragDrop: "Перетащите .ttf / .otf сюда",
     dragDropHint:
       "Предпросмотр обновляется мгновенно. Исходники .otf сохраняются как .ttf для WoW.",
     browseFont: "Выбрать файл шрифта",
-    loadedFont: "Загруженный шрифт",
     clear: "Очистить",
+    change: "Сменить",
+    dropOverlay: "Отпустите, чтобы загрузить шрифт",
   },
   preview: {
-    title: "Предпросмотр",
-    combatLabel: "Боевой текст",
     combatSample: "Критический удар! 4 821",
-    questLabel: "Текст заданий и интерфейса",
     questSample: "Принять задание",
-    chatLabel: "Текст чата",
     chatSample: "Готов!",
     chatPlayer: "Игрок",
+    mailSample: "Письмо с фронта",
+  },
+  slots: {
+    title: "Слоты",
+    ownFont: "Свой шрифт",
+    useMain: "Использовать основной шрифт",
+    notChanged: "Без изменений",
+    needsFont: "Нужен шрифт",
   },
   footer: {
     working: "Выполняется…",
     loading: "Загрузка…",
     applyFont: "Применить шрифт",
+    applyCount: "Применить к слотам: {{count}}",
+    applyOne: "Применить к 1 слоту",
     restoreDefaults: "Восстановить по умолчанию",
   },
   settings: {
@@ -42,13 +48,6 @@ export const ru: Translation = {
     browseWow: "Выбрать папку WoW",
     activeTarget: "Активная цель",
     notDetected: "Не обнаружено",
-    fontTargets: "Цели шрифтов",
-    fontTargetsHint:
-      "WoW требует точные имена файлов (с учётом регистра) с расширением .ttf, даже если исходный шрифт в формате .otf. При применении также удаляются устаревшие файлы GPU-кэша .slug / .slugo.",
-    perSlotFonts: "Шрифты по слотам",
-    perSlotFontsHint:
-      "Необязательно. Назначьте слоту свой шрифт. Пустые слоты используют основной шрифт выше.",
-    perSlotUsesMain: "Использует основной шрифт",
     localePacks: "Региональные слоты шрифтов",
     localePacksHint:
       "Также записывает региональные файлы шрифтов для нелатинских клиентов WoW (кириллица, корейский, китайский).",
@@ -72,10 +71,6 @@ export const ru: Translation = {
       label: "Задания и интерфейс",
       description: "Диалоги заданий, кнопки, имена",
     },
-    all: {
-      label: "Заменить все",
-      description: "Все латинские слоты шрифтов WoW",
-    },
   },
   localePacks: {
     cyrillic: {
@@ -96,6 +91,7 @@ export const ru: Translation = {
     ptr: "Retail PTR",
     beta: "Retail Beta",
     xptr: "Retail PTR 2",
+    forever: "Forever",
     classic: "Classic",
     classicPtr: "Classic PTR",
     classicBeta: "Classic Beta",
@@ -107,6 +103,7 @@ export const ru: Translation = {
   },
   gameGroups: {
     retail: "Retail",
+    forever: "Forever",
     classic: "Classic",
     classicEra: "Classic Era",
   },
@@ -137,7 +134,7 @@ export const ru: Translation = {
   },
   errors: {
     dropFontFirst: "Сначала перетащите файл шрифта.",
-    selectTarget: "Выберите хотя бы одну цель шрифта в Настройках.",
+    selectTarget: "Выберите хотя бы один слот.",
     wowNotFound: "Установка WoW не найдена. Укажите путь в Настройках.",
     fontMustBeTtfOtf: "Шрифт должен быть файлом .ttf или .otf",
   },

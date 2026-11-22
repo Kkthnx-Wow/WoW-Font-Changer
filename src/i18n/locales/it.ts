@@ -3,32 +3,38 @@ import type { Translation } from "../types";
 export const it: Translation = {
   app: {
     title: "WoW Font Changer",
-    subtitle: "Widget compatto per i font",
   },
-  header: { notInstalled: " (non installato)" },
+  header: { notInstalled: " (non installato)", openSettings: "Apri impostazioni", gameVersion: "Versione del gioco" },
   dropzone: {
     loadingPreview: "Caricamento anteprima font…",
     dragDrop: "Trascina qui un .ttf / .otf",
     dragDropHint:
       "L'anteprima si aggiorna all'istante. I file .otf vengono salvati come .ttf per WoW.",
     browseFont: "Sfoglia file font",
-    loadedFont: "Font caricato",
     clear: "Cancella",
+    change: "Cambia",
+    dropOverlay: "Rilascia per caricare il font",
   },
   preview: {
-    title: "Anteprima live",
-    combatLabel: "Testo di combattimento",
     combatSample: "Colpo critico! 4.821",
-    questLabel: "Testo missioni e interfaccia",
     questSample: "Accetta missione",
-    chatLabel: "Testo chat",
     chatSample: "Pronto!",
     chatPlayer: "Giocatore",
+    mailSample: "Una lettera dal fronte",
+  },
+  slots: {
+    title: "Slot",
+    ownFont: "Font dedicato",
+    useMain: "Usa font principale",
+    notChanged: "Invariato",
+    needsFont: "Serve un font",
   },
   footer: {
     working: "Elaborazione…",
     loading: "Caricamento…",
     applyFont: "Applica font",
+    applyCount: "Applica a {{count}} slot",
+    applyOne: "Applica a 1 slot",
     restoreDefaults: "Ripristina predefiniti",
   },
   settings: {
@@ -42,13 +48,6 @@ export const it: Translation = {
     browseWow: "Sfoglia cartella WoW",
     activeTarget: "Destinazione attiva",
     notDetected: "Non rilevato",
-    fontTargets: "Destinazioni font",
-    fontTargetsHint:
-      "WoW richiede nomi file esatti (con distinzione maiuscole/minuscole) con estensione .ttf, anche se il font di origine è .otf. L'applicazione elimina anche i file cache GPU .slug / .slugo obsoleti.",
-    perSlotFonts: "Font per slot",
-    perSlotFontsHint:
-      "Facoltativo. Assegna a uno slot un font dedicato. Gli slot vuoti usano il font principale qui sopra.",
-    perSlotUsesMain: "Usa il font principale",
     localePacks: "Slot font regionali",
     localePacksHint:
       "Scrive anche i file font specifici per regione usati dai client WoW non latini (cirillico, coreano, cinese).",
@@ -72,10 +71,6 @@ export const it: Translation = {
       label: "Missioni e interfaccia",
       description: "Dialoghi missioni, pulsanti, nomi",
     },
-    all: {
-      label: "Sostituisci tutto",
-      description: "Tutti gli slot font latini di WoW",
-    },
   },
   localePacks: {
     cyrillic: {
@@ -96,6 +91,7 @@ export const it: Translation = {
     ptr: "Retail PTR",
     beta: "Retail Beta",
     xptr: "Retail PTR 2",
+    forever: "Forever",
     classic: "Classic",
     classicPtr: "Classic PTR",
     classicBeta: "Classic Beta",
@@ -107,6 +103,7 @@ export const it: Translation = {
   },
   gameGroups: {
     retail: "Retail",
+    forever: "Forever",
     classic: "Classic",
     classicEra: "Classic Era",
   },
@@ -137,7 +134,7 @@ export const it: Translation = {
   },
   errors: {
     dropFontFirst: "Trascina prima un file font.",
-    selectTarget: "Seleziona almeno una destinazione font nelle Impostazioni.",
+    selectTarget: "Seleziona almeno uno slot.",
     wowNotFound: "Installazione di WoW non trovata. Imposta un percorso nelle Impostazioni.",
     fontMustBeTtfOtf: "Il font deve essere un file .ttf o .otf",
   },

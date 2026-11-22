@@ -3,32 +3,37 @@ use std::path::{Path, PathBuf};
 
 const WOW_FOLDER: &str = "World of Warcraft";
 
-pub(crate) const WOW_FLAVOR_FOLDERS: &[&str] = &[
-    "_retail_",
-    "_ptr_",
-    "_beta_",
-    "_xptr_",
-    "_classic_",
-    "_classic_ptr_",
-    "_classic_beta_",
-    "_classic_titan_",
-    "_anniversary_",
-    "_classic_era_",
-    "_classic_era_ptr_",
-    "_classic_era_beta_",
+/// Blizzard client flavor folders inside the WoW base folder. Keys match the
+/// frontend `GameVersion` ids. This is the single source of truth for both
+/// detection and apply, so a new client only needs one line here.
+/// `_forever_` is WoW Forever (live since 2026-11-04). Its beta ran from
+/// `_classic_beta_`, which is already listed.
+pub(crate) const WOW_FLAVORS: &[(&str, &str)] = &[
+    ("retail", "_retail_"),
+    ("ptr", "_ptr_"),
+    ("beta", "_beta_"),
+    ("xptr", "_xptr_"),
+    ("forever", "_forever_"),
+    ("classic", "_classic_"),
+    ("classicPtr", "_classic_ptr_"),
+    ("classicBeta", "_classic_beta_"),
+    ("classicTitan", "_classic_titan_"),
+    ("anniversary", "_anniversary_"),
+    ("era", "_classic_era_"),
+    ("classicEraPtr", "_classic_era_ptr_"),
+    ("classicEraBeta", "_classic_era_beta_"),
 ];
 
 pub(crate) fn is_wow_base(base: &Path) -> bool {
-    WOW_FLAVOR_FOLDERS
+    WOW_FLAVORS
         .iter()
-        .any(|folder| base.join(folder).is_dir())
+        .any(|(_, folder)| base.join(folder).is_dir())
 }
 
 pub(crate) fn is_flavor_folder(path: &Path) -> bool {
     path.file_name()
         .and_then(|n| n.to_str())
-        .map(|name| WOW_FLAVOR_FOLDERS.contains(&name))
-        .unwrap_or(false)
+        .is_some_and(|name| WOW_FLAVORS.iter().any(|(_, folder)| *folder == name))
 }
 
 pub(crate) fn normalize_to_wow_base(path: PathBuf) -> PathBuf {
@@ -326,6 +331,7 @@ mod tests {
     fn flavor_folders_are_recognized() {
         assert!(is_flavor_folder(&PathBuf::from("games").join("wow").join("_retail_")));
         assert!(is_flavor_folder(&PathBuf::from("_classic_era_")));
+        assert!(is_flavor_folder(&PathBuf::from("_forever_")));
         assert!(!is_flavor_folder(&PathBuf::from("games").join("World of Warcraft")));
     }
 

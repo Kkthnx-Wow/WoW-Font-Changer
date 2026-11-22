@@ -3,32 +3,38 @@ import type { Translation } from "../types";
 export const de: Translation = {
   app: {
     title: "WoW Font Changer",
-    subtitle: "Kompaktes Schriftarten-Widget",
   },
-  header: { notInstalled: " (nicht installiert)" },
+  header: { notInstalled: " (nicht installiert)", openSettings: "Einstellungen öffnen", gameVersion: "Spielversion" },
   dropzone: {
     loadingPreview: "Schriftvorschau wird geladen…",
     dragDrop: ".ttf / .otf hierher ziehen",
     dragDropHint:
       "Vorschau aktualisiert sich sofort. .otf-Quellen werden für WoW als .ttf gespeichert.",
     browseFont: "Schriftdatei auswählen",
-    loadedFont: "Geladene Schrift",
     clear: "Leeren",
+    change: "Ändern",
+    dropOverlay: "Loslassen, um die Schrift zu laden",
   },
   preview: {
-    title: "Live-Vorschau",
-    combatLabel: "Kampftext",
     combatSample: "Kritischer Treffer! 4.821",
-    questLabel: "Quest- & UI-Text",
     questSample: "Quest annehmen",
-    chatLabel: "Chat-Text",
     chatSample: "Bereit!",
     chatPlayer: "Spieler",
+    mailSample: "Ein Brief von der Front",
+  },
+  slots: {
+    title: "Schrift-Slots",
+    ownFont: "Eigene Schrift",
+    useMain: "Hauptschrift verwenden",
+    notChanged: "Unverändert",
+    needsFont: "Schrift fehlt",
   },
   footer: {
     working: "Wird ausgeführt…",
     loading: "Wird geladen…",
     applyFont: "Schrift anwenden",
+    applyCount: "Auf {{count}} Slots anwenden",
+    applyOne: "Auf 1 Slot anwenden",
     restoreDefaults: "Standard wiederherstellen",
   },
   settings: {
@@ -42,13 +48,6 @@ export const de: Translation = {
     browseWow: "WoW-Ordner auswählen",
     activeTarget: "Aktives Ziel",
     notDetected: "Nicht erkannt",
-    fontTargets: "Schriftziele",
-    fontTargetsHint:
-      "WoW erfordert exakte Dateinamen (Groß-/Kleinschreibung beachten) mit .ttf-Endung, auch wenn die Quellschrift .otf ist. Beim Anwenden werden veraltete .slug- / .slugo-GPU-Cache-Dateien gelöscht.",
-    perSlotFonts: "Schriften pro Slot",
-    perSlotFontsHint:
-      "Optional. Gib einem Slot eine eigene Schrift. Leere Slots nutzen die Hauptschrift oben.",
-    perSlotUsesMain: "Nutzt Hauptschrift",
     localePacks: "Regionale Schrift-Slots",
     localePacksHint:
       "Schreibt auch regionsspezifische Schriftdateien für nicht-lateinische WoW-Clients (Kyrillisch, Koreanisch, Chinesisch).",
@@ -72,10 +71,6 @@ export const de: Translation = {
       label: "Quest & UI",
       description: "Questdialoge, Schaltflächen, Namen",
     },
-    all: {
-      label: "Alle ersetzen",
-      description: "Alle lateinischen WoW-Schrift-Slots",
-    },
   },
   localePacks: {
     cyrillic: {
@@ -96,6 +91,7 @@ export const de: Translation = {
     ptr: "Retail PTR",
     beta: "Retail Beta",
     xptr: "Retail PTR 2",
+    forever: "Forever",
     classic: "Classic",
     classicPtr: "Classic PTR",
     classicBeta: "Classic Beta",
@@ -107,6 +103,7 @@ export const de: Translation = {
   },
   gameGroups: {
     retail: "Retail",
+    forever: "Forever",
     classic: "Classic",
     classicEra: "Classic Era",
   },
@@ -137,7 +134,7 @@ export const de: Translation = {
   },
   errors: {
     dropFontFirst: "Zuerst eine Schriftdatei ablegen.",
-    selectTarget: "Mindestens ein Schriftziel in den Einstellungen auswählen.",
+    selectTarget: "Wähle mindestens einen Slot.",
     wowNotFound: "WoW-Installation nicht gefunden. Pfad in den Einstellungen festlegen.",
     fontMustBeTtfOtf: "Schrift muss eine .ttf- oder .otf-Datei sein",
   },

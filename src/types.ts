@@ -3,6 +3,7 @@ export type GameVersion =
   | "ptr"
   | "beta"
   | "xptr"
+  | "forever"
   | "classic"
   | "classicPtr"
   | "classicBeta"
@@ -56,43 +57,18 @@ export const LOCALE_PACK_FILES: Record<LocalePack, readonly string[]> = {
   ],
 };
 
-export const FONT_MAPPING_TARGETS: Record<
-  FontMapping,
-  { target: string; localeTargets?: Partial<Record<LocalePack, string>> }
-> = {
-  combat: {
-    target: "skurri.ttf",
-    localeTargets: { cyrillic: "skurri_CYR.ttf" },
-  },
-  chat: {
-    target: "ARIALN.ttf",
-    localeTargets: { cyrillic: "ARIALN_CYR.ttf" },
-  },
-  mail: {
-    target: "MORPHEUS.ttf",
-    localeTargets: { cyrillic: "MORPHEUS_CYR.ttf" },
-  },
-  quest: {
-    target: "FRIZQT__.ttf",
-    localeTargets: { cyrillic: "FRIZQT___CYR.ttf" },
-  },
-  all: { target: WOW_FONT_FILES.join(", ") },
+export const FONT_MAPPING_TARGETS: Record<FontMapping, string> = {
+  combat: "skurri.ttf",
+  chat: "ARIALN.ttf",
+  mail: "MORPHEUS.ttf",
+  quest: "FRIZQT__.ttf",
+  all: WOW_FONT_FILES.join(", "),
 };
 
+/** Install base plus each flavor folder found in it, keyed by `GameVersion`. */
 export interface DetectResult {
   basePath: string | null;
-  retail: string | null;
-  ptr: string | null;
-  beta: string | null;
-  xptr: string | null;
-  classic: string | null;
-  classicPtr: string | null;
-  classicBeta: string | null;
-  classicTitan: string | null;
-  anniversary: string | null;
-  era: string | null;
-  classicEraPtr: string | null;
-  classicEraBeta: string | null;
+  flavors: Partial<Record<GameVersion, string>>;
 }
 
 export interface ApplyResult {
@@ -110,7 +86,7 @@ export interface AppSettings {
   compressBackup: boolean;
 }
 
-export type GameVersionGroup = "retail" | "classic" | "classicEra";
+export type GameVersionGroup = "retail" | "forever" | "classic" | "classicEra";
 
 export const GAME_VERSION_GROUPS: {
   id: GameVersionGroup;
@@ -119,6 +95,10 @@ export const GAME_VERSION_GROUPS: {
   {
     id: "retail",
     versions: ["retail", "ptr", "beta", "xptr"],
+  },
+  {
+    id: "forever",
+    versions: ["forever"],
   },
   {
     id: "classic",
@@ -140,35 +120,24 @@ export const FONT_MAPPING_IDS: FontMapping[] = [
   "all",
 ];
 
-const FLAVOR_PATH_KEYS: Record<GameVersion, keyof DetectResult> = {
-  retail: "retail",
-  ptr: "ptr",
-  beta: "beta",
-  xptr: "xptr",
-  classic: "classic",
-  classicPtr: "classicPtr",
-  classicBeta: "classicBeta",
-  classicTitan: "classicTitan",
-  anniversary: "anniversary",
-  era: "era",
-  classicEraPtr: "classicEraPtr",
-  classicEraBeta: "classicEraBeta",
-};
+export const GAME_VERSION_IDS: GameVersion[] = GAME_VERSION_GROUPS.flatMap(
+  (group) => group.versions,
+);
+
+export function isGameVersion(value: unknown): value is GameVersion {
+  return GAME_VERSION_IDS.includes(value as GameVersion);
+}
 
 export function getFlavorPath(
   detection: DetectResult | null,
   version: GameVersion,
 ): string | null {
-  if (!detection) return null;
-  const key = FLAVOR_PATH_KEYS[version];
-  const value = detection[key];
-  return typeof value === "string" ? value : null;
+  return detection?.flavors?.[version] ?? null;
 }
 
 export function isVersionAvailable(
   version: GameVersion,
   detection: DetectResult | null,
 ): boolean {
-  if (!detection?.basePath) return false;
-  return Boolean(getFlavorPath(detection, version));
+  return Boolean(detection?.basePath && getFlavorPath(detection, version));
 }

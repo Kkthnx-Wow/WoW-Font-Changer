@@ -9,39 +9,24 @@ import {
 
 export function AboutSection() {
   return (
-    <section className="rounded-lg border border-white/5 bg-charcoal/40 px-3 py-3">
+    <div className="rounded-lg border border-line bg-bg px-3 py-3">
       <div className="flex items-center gap-3">
-        <Logo size="header" className="!h-10 !w-10" />
+        <Logo size="about" />
         <div className="min-w-0">
-          <p className="text-[12px] font-semibold text-gold-bright">{APP_NAME}</p>
-          <p className="text-[10px] text-white/50">Version {APP_VERSION}</p>
+          <p className="text-[13px] font-semibold text-text">{APP_NAME}</p>
+          <p className="text-[12px] text-muted">
+            v{APP_VERSION}, {APP_AUTHOR}
+          </p>
         </div>
       </div>
 
-      <p className="mt-3 text-[10px] leading-relaxed text-white/55">
-        {APP_DESCRIPTION}
-      </p>
+      <p className="mt-3 text-[12px] leading-relaxed text-text-2">{APP_DESCRIPTION}</p>
 
-      <ul className="mt-2.5 space-y-1">
+      <ul className="mt-2 list-disc space-y-0.5 pl-4 text-[12px] text-muted marker:text-gold">
         {APP_FEATURES.map((feature) => (
-          <li
-            key={feature}
-            className="flex items-start gap-1.5 text-[9px] text-white/40"
-          >
-            <span className="mt-0.5 text-gold/60" aria-hidden>
-              ✦
-            </span>
-            {feature}
-          </li>
+          <li key={feature}>{feature}</li>
         ))}
       </ul>
-
-      <div className="mt-3 border-t border-white/5 pt-2.5">
-        <p className="text-[9px] uppercase tracking-wider text-white/30">
-          Created by
-        </p>
-        <p className="mt-0.5 text-[11px] font-medium text-gold/80">{APP_AUTHOR}</p>
-      </div>
-    </section>
+    </div>
   );
 }

@@ -3,32 +3,38 @@ import type { Translation } from "../types";
 export const zhTW: Translation = {
   app: {
     title: "WoW Font Changer",
-    subtitle: "精簡字型工具",
   },
-  header: { notInstalled: "（未安裝）" },
+  header: { notInstalled: "（未安裝）", openSettings: "開啟設定", gameVersion: "遊戲版本" },
   dropzone: {
     loadingPreview: "正在載入字型預覽…",
     dragDrop: "將 .ttf / .otf 拖放到此處",
     dragDropHint:
       "預覽即時更新。.otf 來源檔會儲存為 WoW 所需的 .ttf 格式。",
     browseFont: "瀏覽字型檔案",
-    loadedFont: "已載入字型",
     clear: "清除",
+    change: "更換",
+    dropOverlay: "放開以載入字型",
   },
   preview: {
-    title: "即時預覽",
-    combatLabel: "戰鬥文字",
     combatSample: "致命一擊！4,821",
-    questLabel: "任務與介面文字",
     questSample: "接受任務",
-    chatLabel: "聊天文字",
     chatSample: "準備好了！",
     chatPlayer: "玩家",
+    mailSample: "前線來信",
+  },
+  slots: {
+    title: "字型槽位",
+    ownFont: "單獨字型",
+    useMain: "使用主字型",
+    notChanged: "不變更",
+    needsFont: "需要字型",
   },
   footer: {
     working: "處理中…",
     loading: "載入中…",
     applyFont: "套用字型",
+    applyCount: "套用到 {{count}} 個槽位",
+    applyOne: "套用到 1 個槽位",
     restoreDefaults: "還原預設",
   },
   settings: {
@@ -42,12 +48,6 @@ export const zhTW: Translation = {
     browseWow: "瀏覽 WoW 資料夾",
     activeTarget: "目前目標",
     notDetected: "未偵測到",
-    fontTargets: "字型目標",
-    fontTargetsHint:
-      "WoW 要求使用精確的檔名（區分大小寫）且副檔名為 .ttf，即使來源字型為 .otf。套用時也會清除過期的 .slug / .slugo GPU 快取檔案。",
-    perSlotFonts: "各槽位字型",
-    perSlotFontsHint: "可選。為某個槽位單獨指定字型。留空的槽位使用上方的主字型。",
-    perSlotUsesMain: "使用主字型",
     localePacks: "區域字型插槽",
     localePacksHint:
       "同時寫入非拉丁 WoW 用戶端（西里爾、韓文、中文）使用的區域字型檔案。",
@@ -71,10 +71,6 @@ export const zhTW: Translation = {
       label: "任務與介面",
       description: "任務對話框、按鈕、名稱",
     },
-    all: {
-      label: "全部替換",
-      description: "所有拉丁 WoW 字型插槽",
-    },
   },
   localePacks: {
     cyrillic: {
@@ -95,6 +91,7 @@ export const zhTW: Translation = {
     ptr: "Retail PTR",
     beta: "Retail Beta",
     xptr: "Retail PTR 2",
+    forever: "Forever",
     classic: "Classic",
     classicPtr: "Classic PTR",
     classicBeta: "Classic Beta",
@@ -106,6 +103,7 @@ export const zhTW: Translation = {
   },
   gameGroups: {
     retail: "Retail",
+    forever: "Forever",
     classic: "Classic",
     classicEra: "Classic Era",
   },
@@ -136,7 +134,7 @@ export const zhTW: Translation = {
   },
   errors: {
     dropFontFirst: "請先拖放字型檔案。",
-    selectTarget: "請在設定中至少選擇一個字型目標。",
+    selectTarget: "請至少選擇一個槽位。",
     wowNotFound: "找不到 WoW 安裝。請在設定中指定路徑。",
     fontMustBeTtfOtf: "字型必須是 .ttf 或 .otf 檔案",
   },

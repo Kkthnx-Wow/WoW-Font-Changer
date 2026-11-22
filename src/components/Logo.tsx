@@ -1,19 +1,18 @@
 import { memo } from "react";
 
-type LogoSize = "header" | "hero";
+type LogoSize = "small" | "about";
 
 const SIZE: Record<LogoSize, string> = {
-  header: "h-12 w-12",
-  hero: "h-[5.5rem] w-[5.5rem]",
+  small: "h-7 w-7",
+  about: "h-10 w-10",
 };
 
 interface LogoProps {
   size?: LogoSize;
-  className?: string;
 }
 
-/** In-app logo, brightened for dark UI. The title bar uses a processed ICO separately. */
-export const Logo = memo(function Logo({ size = "header", className = "" }: LogoProps) {
+/** In-app logo. The title bar uses a processed ICO separately. */
+export const Logo = memo(function Logo({ size = "small" }: LogoProps) {
   return (
     <img
       src="/logo.png"
@@ -21,7 +20,7 @@ export const Logo = memo(function Logo({ size = "header", className = "" }: Logo
       aria-hidden
       draggable={false}
       decoding="async"
-      className={`${SIZE[size]} shrink-0 object-contain drop-shadow-[0_0_14px_rgb(212,175,55,0.35)] ${className}`}
+      className={`${SIZE[size]} shrink-0 object-contain`}
     />
   );
 });

@@ -3,32 +3,38 @@ import type { Translation } from "../types";
 export const zhCN: Translation = {
   app: {
     title: "WoW Font Changer",
-    subtitle: "紧凑字体工具",
   },
-  header: { notInstalled: "（未安装）" },
+  header: { notInstalled: "（未安装）", openSettings: "打开设置", gameVersion: "游戏版本" },
   dropzone: {
     loadingPreview: "正在加载字体预览…",
     dragDrop: "将 .ttf / .otf 拖放到此处",
     dragDropHint:
       "预览即时更新。.otf 源文件会保存为 WoW 所需的 .ttf 格式。",
     browseFont: "浏览字体文件",
-    loadedFont: "已加载字体",
     clear: "清除",
+    change: "更换",
+    dropOverlay: "松开以加载字体",
   },
   preview: {
-    title: "实时预览",
-    combatLabel: "战斗文字",
     combatSample: "暴击！4,821",
-    questLabel: "任务与界面文字",
     questSample: "接受任务",
-    chatLabel: "聊天文字",
     chatSample: "准备好了！",
     chatPlayer: "玩家",
+    mailSample: "前线来信",
+  },
+  slots: {
+    title: "字体槽位",
+    ownFont: "单独字体",
+    useMain: "使用主字体",
+    notChanged: "不更改",
+    needsFont: "需要字体",
   },
   footer: {
     working: "处理中…",
     loading: "加载中…",
     applyFont: "应用字体",
+    applyCount: "应用到 {{count}} 个槽位",
+    applyOne: "应用到 1 个槽位",
     restoreDefaults: "恢复默认",
   },
   settings: {
@@ -42,12 +48,6 @@ export const zhCN: Translation = {
     browseWow: "浏览 WoW 文件夹",
     activeTarget: "当前目标",
     notDetected: "未检测到",
-    fontTargets: "字体目标",
-    fontTargetsHint:
-      "WoW 要求使用精确的文件名（区分大小写）且扩展名为 .ttf，即使源字体为 .otf。应用时还会清除过期的 .slug / .slugo GPU 缓存文件。",
-    perSlotFonts: "各槽位字体",
-    perSlotFontsHint: "可选。为某个槽位单独指定字体。留空的槽位使用上方的主字体。",
-    perSlotUsesMain: "使用主字体",
     localePacks: "区域字体槽位",
     localePacksHint:
       "同时写入非拉丁 WoW 客户端（西里尔、韩语、中文）使用的区域字体文件。",
@@ -71,10 +71,6 @@ export const zhCN: Translation = {
       label: "任务与界面",
       description: "任务对话框、按钮、名称",
     },
-    all: {
-      label: "全部替换",
-      description: "所有拉丁 WoW 字体槽位",
-    },
   },
   localePacks: {
     cyrillic: {
@@ -95,6 +91,7 @@ export const zhCN: Translation = {
     ptr: "Retail PTR",
     beta: "Retail Beta",
     xptr: "Retail PTR 2",
+    forever: "Forever",
     classic: "Classic",
     classicPtr: "Classic PTR",
     classicBeta: "Classic Beta",
@@ -106,6 +103,7 @@ export const zhCN: Translation = {
   },
   gameGroups: {
     retail: "Retail",
+    forever: "Forever",
     classic: "Classic",
     classicEra: "Classic Era",
   },
@@ -136,7 +134,7 @@ export const zhCN: Translation = {
   },
   errors: {
     dropFontFirst: "请先拖放字体文件。",
-    selectTarget: "请在设置中至少选择一个字体目标。",
+    selectTarget: "请至少选择一个槽位。",
     wowNotFound: "未找到 WoW 安装。请在设置中指定路径。",
     fontMustBeTtfOtf: "字体必须是 .ttf 或 .otf 文件",
   },

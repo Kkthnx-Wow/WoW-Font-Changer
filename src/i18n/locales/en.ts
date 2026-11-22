@@ -3,32 +3,38 @@ import type { Translation } from "../types";
 export const en: Translation = {
   app: {
     title: "WoW Font Changer",
-    subtitle: "Compact font widget",
   },
-  header: { notInstalled: " (not installed)" },
+  header: { notInstalled: " (not installed)", openSettings: "Open settings", gameVersion: "Game version" },
   dropzone: {
     loadingPreview: "Loading font preview…",
     dragDrop: "Drag & Drop .ttf / .otf here",
     dragDropHint:
       "Preview updates instantly. .otf sources are saved as .ttf for WoW.",
     browseFont: "Browse Font File",
-    loadedFont: "Loaded font",
     clear: "Clear",
+    change: "Change",
+    dropOverlay: "Drop to load this font",
   },
   preview: {
-    title: "Live Preview",
-    combatLabel: "Combat text",
     combatSample: "Critical Hit! 4,821",
-    questLabel: "Quest & UI text",
     questSample: "Accept Quest",
-    chatLabel: "Chat text",
     chatSample: "Ready!",
     chatPlayer: "Player",
+    mailSample: "A Letter from the Front",
+  },
+  slots: {
+    title: "Slots",
+    ownFont: "Own font",
+    useMain: "Use main font",
+    notChanged: "Not changed",
+    needsFont: "Needs a font",
   },
   footer: {
     working: "Working…",
     loading: "Loading…",
     applyFont: "Apply Font",
+    applyCount: "Apply to {{count}} slots",
+    applyOne: "Apply to 1 slot",
     restoreDefaults: "Restore Defaults",
   },
   settings: {
@@ -42,13 +48,6 @@ export const en: Translation = {
     browseWow: "Browse WoW Folder",
     activeTarget: "Active target",
     notDetected: "Not detected",
-    fontTargets: "Font Targets",
-    fontTargetsHint:
-      "WoW requires exact file names (case-sensitive) with a .ttf extension, even if your source font is .otf. Apply also clears stale .slug and .slugo GPU cache files.",
-    perSlotFonts: "Per-Slot Fonts",
-    perSlotFontsHint:
-      "Optional. Give a slot its own font. Slots left empty use the main font above.",
-    perSlotUsesMain: "Uses main font",
     localePacks: "Locale Font Slots",
     localePacksHint:
       "Also write region-specific font files used by non-Latin WoW clients (Cyrillic, Korean, Chinese).",
@@ -72,10 +71,6 @@ export const en: Translation = {
       label: "Quest & UI",
       description: "Quest dialogs, buttons, names",
     },
-    all: {
-      label: "Replace All",
-      description: "All Latin WoW font slots",
-    },
   },
   localePacks: {
     cyrillic: {
@@ -96,6 +91,7 @@ export const en: Translation = {
     ptr: "Retail PTR",
     beta: "Retail Beta",
     xptr: "Retail PTR 2",
+    forever: "Forever",
     classic: "Classic",
     classicPtr: "Classic PTR",
     classicBeta: "Classic Beta",
@@ -107,6 +103,7 @@ export const en: Translation = {
   },
   gameGroups: {
     retail: "Retail",
+    forever: "Forever",
     classic: "Classic",
     classicEra: "Classic Era",
   },
@@ -137,7 +134,7 @@ export const en: Translation = {
   },
   errors: {
     dropFontFirst: "Drop a font file first.",
-    selectTarget: "Select at least one font target in Settings.",
+    selectTarget: "Select at least one slot.",
     wowNotFound: "WoW installation not found. Set a path in Settings.",
     fontMustBeTtfOtf: "Font must be a .ttf or .otf file",
   },

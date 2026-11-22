@@ -1,8 +1,10 @@
-import { lazy, Suspense, useCallback, useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { AppProvider, useApp } from "./context/AppContext";
+import { useI18n } from "./i18n";
 import { Header } from "./components/Header";
-import { Dropzone } from "./components/Dropzone";
+import { FontCard } from "./components/FontCard";
+import { SlotList } from "./components/SlotList";
 import { Footer } from "./components/Footer";
 
 const SettingsDrawer = lazy(() =>
@@ -13,14 +15,8 @@ const SettingsDrawer = lazy(() =>
 
 function WidgetShell() {
   const { setFontFromPath, settingsOpen, setSettingsOpen } = useApp();
+  const { t } = useI18n();
   const [isDragging, setIsDragging] = useState(false);
-
-  const handleFontDrop = useCallback(
-    (path: string) => {
-      void setFontFromPath(path);
-    },
-    [setFontFromPath],
-  );
 
   useEffect(() => {
     // Native drag and drop only exists under the Tauri runtime. Guard it so the
@@ -28,6 +24,7 @@ function WidgetShell() {
     if (!("__TAURI_INTERNALS__" in window)) return;
 
     let unlisten: (() => void) | undefined;
+    let disposed = false;
 
     void getCurrentWindow()
       .onDragDropEvent((event) => {
@@ -39,19 +36,20 @@ function WidgetShell() {
         } else if (payload.type === "drop") {
           setIsDragging(false);
           const path = payload.paths[0];
-          if (path) {
-            void handleFontDrop(path);
-          }
+          if (path) void setFontFromPath(path);
         }
       })
       .then((fn) => {
-        unlisten = fn;
+        // The effect may have been torn down before the listener resolved.
+        if (disposed) fn();
+        else unlisten = fn;
       });
 
     return () => {
+      disposed = true;
       unlisten?.();
     };
-  }, [handleFontDrop]);
+  }, [setFontFromPath]);
 
   useEffect(() => {
     if (!settingsOpen) return;
@@ -63,11 +61,22 @@ function WidgetShell() {
   }, [settingsOpen, setSettingsOpen]);
 
   return (
-    <div className="relative flex h-full w-full flex-col overflow-hidden bg-gradient-to-b from-charcoal via-charcoal to-[#08090d]">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgb(212,175,55,0.06),transparent_55%)]" />
+    <div className="relative flex h-full w-full flex-col overflow-hidden bg-bg">
       <Header />
-      <Dropzone isDragging={isDragging} />
+      <main className="flex min-h-0 flex-1 flex-col gap-3 px-4 pb-3">
+        <FontCard />
+        <SlotList />
+      </main>
       <Footer />
+
+      {isDragging && (
+        <div className="fade-in pointer-events-none absolute inset-2 z-40 flex items-center justify-center rounded-xl border-2 border-dashed border-gold bg-bg/90">
+          <p className="text-[15px] font-semibold text-gold">
+            {t.dropzone.dropOverlay}
+          </p>
+        </div>
+      )}
+
       {settingsOpen && (
         <Suspense fallback={null}>
           <SettingsDrawer />

@@ -8,8 +8,8 @@ WoW Font Changer is a desktop app that replaces World of Warcraft's default font
 ## What it does
 
 - Swaps WoW's default UI fonts for any font file you drop onto it, with a live preview before you apply.
-- Targets individual slots (combat text, chat, mail and quest headers, quest and UI) or replaces everything at once.
-- Finds every WoW flavor automatically: Retail, PTR, Beta, Classic, Era, Anniversary, and more.
+- Targets individual slots (combat text, chat, mail and quest headers, quest and UI), each with its own font if you like, or replaces everything at once.
+- Finds every WoW flavor automatically: Retail, Forever, PTR, Beta, Classic, Era, Anniversary, and more.
 - Runs on Windows, macOS, and Linux, with 10 interface languages and Cyrillic, Korean, and Chinese font packs.
 - Backs up your original fonts to `Fonts/.backup/` and clears the stale GPU font cache so changes actually take effect.
 
@@ -22,7 +22,7 @@ Download the installer for your platform from the [Releases page](https://github
 1. Install WoW Font Changer from the Releases page and launch it.
 2. It auto-detects your WoW install. Pick the game version in the header dropdown.
 3. Drop a `.ttf` or `.otf` file onto the window and check the live preview.
-4. Select which slots to update, then hit Apply (originals are backed up first).
+4. Tick the slots to update (use Own font on a row to give that slot a different font), then hit Apply. Originals are backed up first.
 5. Restart WoW completely so the client reloads the fonts.
 
 ## Support the work

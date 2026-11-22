@@ -1,9 +1,10 @@
 mod wow;
 mod wow_paths;
 
+use tauri::Manager;
 use wow::{
-    apply_custom_font_async, apply_font_assignments_async, detect_wow_path_sync,
-    restore_defaults_async, validate_wow_path_async, ApplyResult, DetectResult, FontAssignment,
+    apply_font_assignments_async, detect_wow_path_sync, restore_defaults_async,
+    validate_font_source, validate_wow_path_async, ApplyResult, DetectResult, FontAssignment,
 };
 
 #[tauri::command]
@@ -18,24 +19,15 @@ async fn validate_wow_path(path: String) -> Result<DetectResult, String> {
     validate_wow_path_async(path).await
 }
 
+/// The asset protocol starts with an empty scope. Each font the user picks or
+/// drops is checked, then that one file is opened up for the live preview, so
+/// the webview can never read arbitrary files from disk.
 #[tauri::command]
-async fn apply_custom_font(
-    wow_path: String,
-    game_version: String,
-    font_path: String,
-    mappings: Vec<String>,
-    locale_packs: Vec<String>,
-    compress_backup: bool,
-) -> Result<ApplyResult, String> {
-    apply_custom_font_async(
-        wow_path,
-        game_version,
-        font_path,
-        mappings,
-        locale_packs,
-        compress_backup,
-    )
-    .await
+fn allow_preview_font(app: tauri::AppHandle, path: String) -> Result<(), String> {
+    let font = validate_font_source(&path)?;
+    app.asset_protocol_scope()
+        .allow_file(&font)
+        .map_err(|e| format!("Could not open font for preview: {}", e))
 }
 
 #[tauri::command]
@@ -60,7 +52,7 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             detect_wow_path,
             validate_wow_path,
-            apply_custom_font,
+            allow_preview_font,
             apply_custom_fonts,
             restore_defaults,
         ])

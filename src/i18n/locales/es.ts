@@ -3,32 +3,38 @@ import type { Translation } from "../types";
 export const es: Translation = {
   app: {
     title: "WoW Font Changer",
-    subtitle: "Widget compacto de fuentes",
   },
-  header: { notInstalled: " (no instalado)" },
+  header: { notInstalled: " (no instalado)", openSettings: "Abrir ajustes", gameVersion: "Versión del juego" },
   dropzone: {
     loadingPreview: "Cargando vista previa de la fuente…",
     dragDrop: "Arrastra y suelta .ttf / .otf aquí",
     dragDropHint:
       "La vista previa se actualiza al instante. Las fuentes .otf se guardan como .ttf para WoW.",
     browseFont: "Buscar archivo de fuente",
-    loadedFont: "Fuente cargada",
     clear: "Borrar",
+    change: "Cambiar",
+    dropOverlay: "Suelta para cargar la fuente",
   },
   preview: {
-    title: "Vista previa en vivo",
-    combatLabel: "Texto de combate",
     combatSample: "¡Golpe crítico! 4.821",
-    questLabel: "Texto de misiones e interfaz",
     questSample: "Aceptar misión",
-    chatLabel: "Texto del chat",
     chatSample: "¡Listo!",
     chatPlayer: "Jugador",
+    mailSample: "Una carta del frente",
+  },
+  slots: {
+    title: "Ranuras",
+    ownFont: "Fuente propia",
+    useMain: "Usar fuente principal",
+    notChanged: "Sin cambios",
+    needsFont: "Falta fuente",
   },
   footer: {
     working: "Procesando…",
     loading: "Cargando…",
     applyFont: "Aplicar fuente",
+    applyCount: "Aplicar a {{count}} ranuras",
+    applyOne: "Aplicar a 1 ranura",
     restoreDefaults: "Restaurar valores predeterminados",
   },
   settings: {
@@ -42,13 +48,6 @@ export const es: Translation = {
     browseWow: "Buscar carpeta de WoW",
     activeTarget: "Destino activo",
     notDetected: "No detectado",
-    fontTargets: "Destinos de fuente",
-    fontTargetsHint:
-      "WoW requiere nombres de archivo exactos (distinguen mayúsculas) con extensión .ttf, aunque la fuente original sea .otf. Al aplicar también se eliminan archivos de caché GPU .slug / .slugo obsoletos.",
-    perSlotFonts: "Fuentes por ranura",
-    perSlotFontsHint:
-      "Opcional. Asigna a una ranura su propia fuente. Las ranuras vacías usan la fuente principal de arriba.",
-    perSlotUsesMain: "Usa la fuente principal",
     localePacks: "Ranuras de fuente regional",
     localePacksHint:
       "También escribe archivos de fuente específicos de la región usados por clientes de WoW no latinos (cirílico, coreano, chino).",
@@ -72,10 +71,6 @@ export const es: Translation = {
       label: "Misiones e interfaz",
       description: "Diálogos de misiones, botones, nombres",
     },
-    all: {
-      label: "Reemplazar todo",
-      description: "Todas las ranuras de fuente latinas de WoW",
-    },
   },
   localePacks: {
     cyrillic: {
@@ -96,6 +91,7 @@ export const es: Translation = {
     ptr: "Retail PTR",
     beta: "Retail Beta",
     xptr: "Retail PTR 2",
+    forever: "Forever",
     classic: "Classic",
     classicPtr: "Classic PTR",
     classicBeta: "Classic Beta",
@@ -107,6 +103,7 @@ export const es: Translation = {
   },
   gameGroups: {
     retail: "Retail",
+    forever: "Forever",
     classic: "Classic",
     classicEra: "Classic Era",
   },
@@ -137,7 +134,7 @@ export const es: Translation = {
   },
   errors: {
     dropFontFirst: "Primero suelta un archivo de fuente.",
-    selectTarget: "Selecciona al menos un destino de fuente en Ajustes.",
+    selectTarget: "Selecciona al menos una ranura.",
     wowNotFound: "Instalación de WoW no encontrada. Configura una ruta en Ajustes.",
     fontMustBeTtfOtf: "La fuente debe ser un archivo .ttf o .otf",
   },

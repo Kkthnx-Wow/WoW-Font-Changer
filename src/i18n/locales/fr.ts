@@ -3,32 +3,38 @@ import type { Translation } from "../types";
 export const fr: Translation = {
   app: {
     title: "WoW Font Changer",
-    subtitle: "Widget compact de polices",
   },
-  header: { notInstalled: " (non installé)" },
+  header: { notInstalled: " (non installé)", openSettings: "Ouvrir les paramètres", gameVersion: "Version du jeu" },
   dropzone: {
     loadingPreview: "Chargement de l'aperçu de la police…",
     dragDrop: "Glissez-déposez un .ttf / .otf ici",
     dragDropHint:
       "L'aperçu se met à jour instantanément. Les sources .otf sont enregistrées en .ttf pour WoW.",
     browseFont: "Parcourir les fichiers de police",
-    loadedFont: "Police chargée",
     clear: "Effacer",
+    change: "Changer",
+    dropOverlay: "Déposez pour charger la police",
   },
   preview: {
-    title: "Aperçu en direct",
-    combatLabel: "Texte de combat",
     combatSample: "Coup critique ! 4 821",
-    questLabel: "Texte de quêtes et interface",
     questSample: "Accepter la quête",
-    chatLabel: "Texte du chat",
     chatSample: "Prêt !",
     chatPlayer: "Joueur",
+    mailSample: "Une lettre du front",
+  },
+  slots: {
+    title: "Emplacements",
+    ownFont: "Police dédiée",
+    useMain: "Utiliser la police principale",
+    notChanged: "Inchangé",
+    needsFont: "Police requise",
   },
   footer: {
     working: "Traitement en cours…",
     loading: "Chargement…",
     applyFont: "Appliquer la police",
+    applyCount: "Appliquer à {{count}} emplacements",
+    applyOne: "Appliquer à 1 emplacement",
     restoreDefaults: "Restaurer les valeurs par défaut",
   },
   settings: {
@@ -42,13 +48,6 @@ export const fr: Translation = {
     browseWow: "Parcourir le dossier WoW",
     activeTarget: "Cible active",
     notDetected: "Non détecté",
-    fontTargets: "Cibles de police",
-    fontTargetsHint:
-      "WoW exige des noms de fichier exacts (sensibles à la casse) avec l'extension .ttf, même si votre police source est en .otf. L'application supprime aussi les anciens fichiers de cache GPU .slug / .slugo.",
-    perSlotFonts: "Polices par emplacement",
-    perSlotFontsHint:
-      "Facultatif. Donnez à un emplacement sa propre police. Les emplacements vides utilisent la police principale ci-dessus.",
-    perSlotUsesMain: "Utilise la police principale",
     localePacks: "Emplacements de polices régionales",
     localePacksHint:
       "Écrit également les fichiers de police spécifiques aux régions utilisés par les clients WoW non latins (cyrillique, coréen, chinois).",
@@ -72,10 +71,6 @@ export const fr: Translation = {
       label: "Quêtes et interface",
       description: "Dialogues de quêtes, boutons, noms",
     },
-    all: {
-      label: "Tout remplacer",
-      description: "Tous les emplacements de police latins de WoW",
-    },
   },
   localePacks: {
     cyrillic: {
@@ -96,6 +91,7 @@ export const fr: Translation = {
     ptr: "Retail PTR",
     beta: "Retail Beta",
     xptr: "Retail PTR 2",
+    forever: "Forever",
     classic: "Classic",
     classicPtr: "Classic PTR",
     classicBeta: "Classic Beta",
@@ -107,6 +103,7 @@ export const fr: Translation = {
   },
   gameGroups: {
     retail: "Retail",
+    forever: "Forever",
     classic: "Classic",
     classicEra: "Classic Era",
   },
@@ -137,7 +134,7 @@ export const fr: Translation = {
   },
   errors: {
     dropFontFirst: "Déposez d'abord un fichier de police.",
-    selectTarget: "Sélectionnez au moins une cible de police dans les Paramètres.",
+    selectTarget: "Sélectionnez au moins un emplacement.",
     wowNotFound: "Installation de WoW introuvable. Définissez un chemin dans les Paramètres.",
     fontMustBeTtfOtf: "La police doit être un fichier .ttf ou .otf",
   },

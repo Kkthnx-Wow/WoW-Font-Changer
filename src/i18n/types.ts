@@ -28,26 +28,32 @@ export const APP_LOCALES: { id: AppLocale; label: string }[] = [
 export interface Translation {
   app: {
     title: string;
-    subtitle: string;
   };
   header: {
     notInstalled: string;
+    openSettings: string;
+    gameVersion: string;
   };
   dropzone: {
     loadingPreview: string;
     dragDrop: string;
     dragDropHint: string;
     browseFont: string;
-    loadedFont: string;
     clear: string;
+    change: string;
+    dropOverlay: string;
+  };
+  slots: {
+    title: string;
+    ownFont: string;
+    useMain: string;
+    notChanged: string;
+    needsFont: string;
   };
   preview: {
-    title: string;
-    combatLabel: string;
     combatSample: string;
-    questLabel: string;
+    mailSample: string;
     questSample: string;
-    chatLabel: string;
     chatSample: string;
     chatPlayer: string;
   };
@@ -55,6 +61,8 @@ export interface Translation {
     working: string;
     loading: string;
     applyFont: string;
+    applyCount: string;
+    applyOne: string;
     restoreDefaults: string;
   };
   settings: {
@@ -68,11 +76,6 @@ export interface Translation {
     browseWow: string;
     activeTarget: string;
     notDetected: string;
-    fontTargets: string;
-    fontTargetsHint: string;
-    perSlotFonts: string;
-    perSlotFontsHint: string;
-    perSlotUsesMain: string;
     localePacks: string;
     localePacksHint: string;
     compressBackup: string;
@@ -86,7 +89,6 @@ export interface Translation {
     chat: { label: string; description: string };
     mail: { label: string; description: string };
     quest: { label: string; description: string };
-    all: { label: string; description: string };
   };
   localePacks: {
     cyrillic: { label: string; description: string };
@@ -96,6 +98,7 @@ export interface Translation {
   gameVersions: Record<GameVersion, string>;
   gameGroups: {
     retail: string;
+    forever: string;
     classic: string;
     classicEra: string;
   };

@@ -1,15 +1,27 @@
 @import "tailwindcss";
 
+/*
+ * One dark palette, one accent. The accent is WoW's own NORMAL_FONT_COLOR
+ * (1.0, 0.82, 0) so the app reads like the game it edits. Text colors are
+ * checked at 4.5:1 or better on every surface, control borders at 3:1.
+ */
 @theme {
-  --color-charcoal: #0d0e12;
-  --color-charcoal-light: #14161c;
-  --color-charcoal-mid: #1a1d26;
-  --color-gold: #d4af37;
-  --color-gold-bright: #e5c158;
-  --color-gold-dim: #a8892a;
-  --color-glass: rgb(20 22 28 / 0.72);
-  --color-glass-border: rgb(212 175 55 / 0.18);
-  --font-sans: system-ui, -apple-system, "Segoe UI", sans-serif;
+  --color-bg: #0e0f12;
+  --color-surface: #16181d;
+  --color-raised: #1e2128;
+  --color-line: #2b2f37;
+  --color-control: #666c7a;
+  --color-text: #eceef2;
+  --color-text-2: #aab0bb;
+  --color-muted: #868c98;
+  --color-gold: #ffd100;
+  --color-gold-hover: #ffe14d;
+  --color-on-gold: #1a1400;
+  --color-danger: #ff7a70;
+  --color-success: #6fdc7a;
+  --color-guild: #40ff40;
+  --font-sans: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system,
+    sans-serif;
 }
 
 * {
@@ -26,14 +38,25 @@ body,
 body {
   margin: 0;
   font-family: var(--font-sans);
-  background: var(--color-charcoal);
-  color: #e8eaef;
+  font-size: 13px;
+  background: var(--color-bg);
+  color: var(--color-text);
+  color-scheme: dark;
   -webkit-font-smoothing: antialiased;
   user-select: none;
 }
 
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+input[type="checkbox"] {
+  accent-color: var(--color-gold);
+}
+
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -41,18 +64,13 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgb(212 175 55 / 0.35);
+  background: var(--color-line);
   border-radius: 999px;
 }
 
-@keyframes pulse-glow {
-  0%,
-  100% {
-    box-shadow: 0 0 12px rgb(212 175 55 / 0.25);
-  }
-  50% {
-    box-shadow: 0 0 22px rgb(229 193 88 / 0.45);
-  }
+.selectable {
+  user-select: text;
+  cursor: text;
 }
 
 @keyframes fade-in {
@@ -65,19 +83,19 @@ body {
   to { transform: translateX(0); }
 }
 
-.drawer-backdrop {
-  animation: fade-in 0.2s ease-out;
+.fade-in {
+  animation: fade-in 0.15s ease-out;
 }
 
 .drawer-panel {
-  animation: slide-in-right 0.28s cubic-bezier(0.32, 0.72, 0, 1);
+  animation: slide-in-right 0.22s cubic-bezier(0.32, 0.72, 0, 1);
 }
 
-.status-text {
-  user-select: text;
-  cursor: text;
-}
-
-.animate-pulse-glow {
-  animation: pulse-glow 2.4s ease-in-out infinite;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

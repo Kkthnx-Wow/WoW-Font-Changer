@@ -1,8 +1,6 @@
 import { convertFileSrc, invoke } from "@tauri-apps/api/core";
 import type { ApplyResult, DetectResult, FontAssignment } from "../types";
 
-const PREVIEW_FAMILY = "WoWFontPreview";
-let activePreviewFace: FontFace | null = null;
 
 export async function detectWowPath(): Promise<DetectResult> {
   return invoke<DetectResult>("detect_wow_path");
@@ -10,24 +8,6 @@ export async function detectWowPath(): Promise<DetectResult> {
 
 export async function validateWowPath(path: string): Promise<DetectResult> {
   return invoke<DetectResult>("validate_wow_path", { path });
-}
-
-export async function applyCustomFont(
-  wowPath: string,
-  gameVersion: string,
-  fontPath: string,
-  mappings: string[],
-  localePacks: string[],
-  compressBackup: boolean,
-): Promise<ApplyResult> {
-  return invoke<ApplyResult>("apply_custom_font", {
-    wowPath,
-    gameVersion,
-    fontPath,
-    mappings,
-    localePacks,
-    compressBackup,
-  });
 }
 
 export async function applyCustomFonts(
@@ -56,19 +36,28 @@ function isFontFile(path: string): boolean {
   return lower.endsWith(".ttf") || lower.endsWith(".otf");
 }
 
-/** Load font via asset URL for zero IPC byte transfer on preview. */
-export async function loadPreviewFont(path: string): Promise<string> {
+/** Loaded preview faces by slot key ("main", "combat", ...). */
+const previewFaces = new Map<string, FontFace>();
+let previewSerial = 0;
+
+/**
+ * Load a font for preview under a fresh family name and return that name.
+ * A new name per load means the webview can never show glyphs from the
+ * previous file under the same family. Uses the asset protocol, so the font
+ * bytes never cross IPC.
+ */
+export async function loadPreviewFont(path: string, key: string): Promise<string> {
   if (!isFontFile(path)) {
     throw new Error("Font must be a .ttf or .otf file");
   }
 
-  if (activePreviewFace) {
-    document.fonts.delete(activePreviewFace);
-    activePreviewFace = null;
-  }
+  // The asset scope starts empty. The backend checks the font header and
+  // opens just this file. Its error text is already user readable.
+  await invoke("allow_preview_font", { path });
 
-  const url = convertFileSrc(path);
-  const face = new FontFace(PREVIEW_FAMILY, `url("${url}")`);
+  previewSerial += 1;
+  const family = `wfc-${key}-${previewSerial}`;
+  const face = new FontFace(family, `url("${convertFileSrc(path)}")`);
   try {
     await face.load();
   } catch {
@@ -76,14 +65,21 @@ export async function loadPreviewFont(path: string): Promise<string> {
       "Could not load font preview. The file may be invalid or inaccessible.",
     );
   }
+
+  clearPreviewFont(key);
   document.fonts.add(face);
-  activePreviewFace = face;
-  return PREVIEW_FAMILY;
+  previewFaces.set(key, face);
+  return family;
 }
 
-export function clearPreviewFont(): void {
-  if (activePreviewFace) {
-    document.fonts.delete(activePreviewFace);
-    activePreviewFace = null;
+/** Drop one preview face, or all of them when no key is given. */
+export function clearPreviewFont(key?: string): void {
+  const keys = key === undefined ? [...previewFaces.keys()] : [key];
+  for (const k of keys) {
+    const face = previewFaces.get(k);
+    if (face) {
+      document.fonts.delete(face);
+      previewFaces.delete(k);
+    }
   }
 }
